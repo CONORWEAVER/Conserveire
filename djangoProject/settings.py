@@ -124,4 +124,4 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'boot'),
 ]
 
-LOGIN_REDIRECT_URL = '/webapp/'
+LOGIN_REDIRECT_URL = '/webapp/profile'
