@@ -8,12 +8,16 @@
 {% block body %}
     <div class="container">
     <p>
-        {{ user }}
-        {{ user.first_name }}
-        {{ user.last_name }}
-        {{ user.email }}
-        {{ user.last_login }}
+        First name: {{ user.first_name }}
+        <br>
+        Last name: {{ user.last_name }}
+        <br>
+        Email address: {{ user.email }}
+        <br>
+        Last logged in: {{ user.last_login }}
+        <br>
+        County: {{ user.userprofile.county }}
 
-        </div>
     </p>
+    </div>
 {% endblock %}

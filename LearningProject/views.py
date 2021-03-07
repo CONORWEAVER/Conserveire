@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse
 from django.shortcuts import redirect
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from LearningProject.forms import RegistrationForm, UsageForm, EditProfileForm
+from LearningProject.forms import RegistrationForm, UsageForm, EditProfileForm, UserCountyForm
 from LearningProject.models import Usage
 from django.contrib.auth.decorators import login_required
 from django.db.models import Avg

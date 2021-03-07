@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from LearningProject.models import Usage
+from LearningProject.models import Usage, UserProfile
 
 
 class RegistrationForm(UserCreationForm):
@@ -28,6 +28,14 @@ class RegistrationForm(UserCreationForm):
             user.save()
 
         return user
+
+
+
+class UserCountyForm(ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('county',)
+
 
 class EditProfileForm(UserChangeForm):
     class Meta:

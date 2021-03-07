@@ -9,9 +9,10 @@
     <div class="container">
 
     <p>
-       Your energy usage for the month is:
         {% for usage in data1 %}
-        {{ usage.aug }}
+            Your energy usage for the month is: {{ usage.aug }}
+            <br>
+            Your energy usage for last month is: {{ usage.jul }}
         {% endfor %}
 
 
