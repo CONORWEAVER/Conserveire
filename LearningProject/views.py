@@ -47,7 +47,7 @@ def edit_profile(request):
 
 
 def view_feedback(request):
-    data = Usage.objects.all()
+    data = Usage.objects.filter(user=request.user)
     context ={
         'data': data
     }
