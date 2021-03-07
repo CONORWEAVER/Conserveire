@@ -1,6 +1,8 @@
 from django import forms
+from django.forms import ModelForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from LearningProject.models import Usage
 
 
 class RegistrationForm(UserCreationForm):
@@ -27,3 +29,9 @@ class RegistrationForm(UserCreationForm):
             user.save()
 
         return user
+
+class UsageForm(ModelForm):
+    class Meta:
+        model = Usage
+        fields = ['jan', 'feb', 'mar', 'apr', 'may', 'jun',
+                  'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
