@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>Submit your monthly usage</title>
+{% endblock %}
+
+
+{% block body %}
+    <div class="container">
+
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <br>
+            <button type="submit" class="btn-success">Submit</button>
+        </form>
+
+    </div>
+
+{% endblock %}
