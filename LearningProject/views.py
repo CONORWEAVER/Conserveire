@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse
 from django.shortcuts import redirect
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from LearningProject.forms import RegistrationForm, UsageForm
+from LearningProject.forms import RegistrationForm, UsageForm, EditProfileForm
 from LearningProject.models import Usage
 from django.contrib.auth.models import User
 
@@ -36,32 +36,34 @@ def view_profile(request):
 
 def edit_profile(request):
     if request.method == 'POST':
-        form = UserChangeForm(request.POST, instance=request.user)
-
+        form = EditProfileForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
             return redirect('/webapp/profile')
-
     else:
-        form = UserChangeForm(instance=request.user)
+        form = EditProfileForm(instance=request.user)
         args = {'form': form}
         return render(request, 'webapp/edit_profile.html', args)
 
 
 def view_feedback(request):
-    return render(request, "webapp/feedback.html")
+    data = Usage.objects.all()
+    context ={
+        'data': data
+    }
+    return render(request, "webapp/feedback.html", context)
+
 
 def monthly_use(request):
+    user = request.user
     if request.method == 'POST':
-        form = UsageForm(request.POST, instance=request.user)
+        form = UsageForm(request.POST)
         if form.is_valid():
-            obj = form.save(commit=False)
-            obj.user = request.user
-            obj.save()
+            usage = form.save(commit=False)
+            usage.user = request.user
+            usage.save()
             return redirect('/webapp/feedback')
     else:
         form = UsageForm(instance=request.user)
         args = {'form': form}
         return render(request, 'webapp/monthly_use_form.html', args)
-
-

@@ -8,9 +8,11 @@
 {% block body %}
     <div class="container">
 
-
     <p>
-        Your usage: {{ usage.Jan }}
+       LOADING TEST
+        {% for usage in data %}
+        {{ usage.aug }}
+        {% endfor %}
     </p>
 </div>
 
