@@ -125,3 +125,5 @@ STATICFILES_DIRS = [
 ]
 
 LOGIN_REDIRECT_URL = '/webapp/profile'
+
+LOGIN_URL = '/webapp/login'

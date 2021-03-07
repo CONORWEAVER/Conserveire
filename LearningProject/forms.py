@@ -35,7 +35,6 @@ class EditProfileForm(UserChangeForm):
         fields = ('email', 'first_name','last_name', 'password')
 
 
-
 class UsageForm(ModelForm):
     class Meta:
         model = Usage

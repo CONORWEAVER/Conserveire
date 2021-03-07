@@ -3,6 +3,8 @@ from django.shortcuts import redirect
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from LearningProject.forms import RegistrationForm, UsageForm, EditProfileForm
 from LearningProject.models import Usage
+from django.contrib.auth.decorators import login_required
+from django.db.models import Avg
 from django.contrib.auth.models import User
 
 
@@ -28,12 +30,12 @@ def register(request):
         args = {'form': form}
         return render(request, 'webapp/reg_form.html', args)
 
-
+@login_required
 def view_profile(request):
     args = {'user': request.user}
     return render(request, "webapp/profile.html", args)
 
-
+@login_required
 def edit_profile(request):
     if request.method == 'POST':
         form = EditProfileForm(request.POST, instance=request.user)
@@ -45,15 +47,15 @@ def edit_profile(request):
         args = {'form': form}
         return render(request, 'webapp/edit_profile.html', args)
 
-
+@login_required
 def view_feedback(request):
-    data = Usage.objects.filter(user=request.user)
+    data1 = Usage.objects.filter(user=request.user)
     context ={
-        'data': data
+        'data1': data1
     }
     return render(request, "webapp/feedback.html", context)
 
-
+@login_required
 def monthly_use(request):
     user = request.user
     if request.method == 'POST':
