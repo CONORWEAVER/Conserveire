@@ -3,6 +3,8 @@
     <head>
 
     {%  load static %}
+
+    <! -- load style, bootstrap and font files from static directory -->
         <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
         <link rel="stylesheet" href="{% static 'css/Footer-Clean.css' %}" type="text/css">
         <link rel="stylesheet" href="{% static 'css/Login-Form-Clean.css' %}" type="text/css">
@@ -12,34 +14,41 @@
         <link rel="stylesheet" href="{% static 'fonts/font-awesome.min.css' %}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 
+    <! -- load javascript from static directory -->
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/chart.min.js' %}"></script>
+        <script src="{% static 'js/bs-init.js' %}"></script>
+
 
         {% block head %}
             <title>
-
-            Base
+                Base
             </title>
         {% endblock %}
+
     </head>
 
 
     <body>
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-    <a class="navbar-brand" href="/">Conserveire</a>
-    <ul class="nav navbar-nav">
-        <li class="nav-item">
-            <a class="nav-link" href="/webapp/profile">Profile</a>
-        </li>
-    </ul>
-    <ul class="nav navbar-nav ml-auto">
-        <li class="nav-item">
-            <a class="nav-link" href="/webapp/register">Register</a>
-        </li>
-        <li>
-             <a class="nav-link" href="/webapp/logout">Logout</a>
-        </li>
-    </ul>
 
-</nav>
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+            <a class="navbar-brand" href="/">Conserveire</a>
+            <ul class="nav navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/webapp/profile">Profile</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/webapp/register">Register</a>
+                </li>
+                <li>
+                     <a class="nav-link" href="/webapp/logout">Logout</a>
+                </li>
+            </ul>
+
+        </nav>
 <br>
         {% block body %}
 

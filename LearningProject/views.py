@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 
 
 def home(request):
-    return render(request, '/webapp/home.html')
+    return render(request, 'webapp/home.html')
 
 def register(request):
     if request.method == 'POST':

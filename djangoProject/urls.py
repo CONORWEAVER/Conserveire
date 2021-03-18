@@ -18,11 +18,12 @@ from django.urls import path
 
 from django.conf.urls import url, include
 from django.contrib import admin
-from djangoProject import views
+from LearningProject import views as rv
 
 
 urlpatterns = [
-    url(r'^$', views.login_redirect, name='login_redirect'),
+ #   url(r'^$', views.login_redirect, name='login_redirect'),
+    url(r'^$', rv.home, name='home'),
     url(r'^admin/', admin.site.urls),
     url(r'^webapp/', include('LearningProject.urls'))
 ]
