@@ -7,6 +7,7 @@ from LearningProject.models import Usage, UserProfile
 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True)
+
     class Meta:
         model = User
         fields = (
@@ -26,9 +27,7 @@ class RegistrationForm(UserCreationForm):
 
         if commit:
             user.save()
-
         return user
-
 
 
 class UserCountyForm(ModelForm):
@@ -40,7 +39,7 @@ class UserCountyForm(ModelForm):
 class EditProfileForm(UserChangeForm):
     class Meta:
         model = User
-        fields = ('email', 'first_name','last_name', 'password')
+        fields = ('email', 'first_name', 'last_name', 'password')
 
 
 class UsageForm(ModelForm):

@@ -2,23 +2,24 @@
 
 {% block body %}
 
-    <div class="container">
-
-    <h1>Register</h1>
-
-        <br>
-
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn-primary">Submit</button>
-    </form>
-
-
-
-    </div>
-
-
-
+<section id="register" class="login-clean">
+            <form method="post">
+                {% csrf_token %}
+                <h2 class="sr-only">Login Form</h2>
+                <div class="illustration"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icon-tabler-leaf">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M5 21c.5 -4.5 2.5 -8 7 -10"></path>
+                        <path d="M9 18c6.218 0 10.5 -3.288 11 -12v-2h-4.014c-9 0 -11.986 4 -12 9c0 1 0 3 2 5h3z"></path>
+                    </svg></div>
+                <div class="form-group"><input class="form-control" type="text" name="username" placeholder="Username" required></div>
+                <div class="form-group"><input class="form-control" type="text" name="first_name" placeholder="First Name" required> </div>
+                <div class="form-group"><input class="form-control" type="text" name="last_name" placeholder="Last Name"required></div>
+                <div class="form-group"><input class="form-control" type="email" name="email" placeholder="Email" required></div>
+                <div class="form-group"><input class="form-control" type="password" name="password1" placeholder="Password" required></div>
+                <div class="form-group"><input class="form-control" type="password" name="password2" placeholder="Confirm Password" required></div>
+                <div class="form-group"><button class="btn btn-primary btn-block" type="submit" style="background: rgb(64, 145, 108);">Register</button></div><a class="forgot" href="#">Already have an account? <strong>Log In</strong></a>
+            </form>
+            <footer></footer>
+        </section>
 
 {% endblock %}
