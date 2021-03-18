@@ -1,0 +1,99 @@
+#landingjumbo {
+  max-width: 1000px;
+  padding: 50px;
+  background: rgb(241,247,252);
+  margin: auto;
+}
+
+@media (max-width: 576px) {
+  #landingjumbo {
+    padding: 40px 20px;
+  }
+}
+
+.shadedsection {
+  background-color: rgb(241,247,252);
+}
+
+#landingcards {
+  text-align: center;
+  padding: 5px;
+  margin: auto;
+  max-width: 1000px;
+}
+
+#landingcards .icons {
+  margin: auto;
+  text-align: center;
+  display: block;
+}
+
+#loginform {
+  max-width: 312px;
+}
+
+#profilecard {
+  margin: 20px 0px;
+}
+
+#profilecard {
+  text-align: center;
+}
+
+.card {
+  text-align: center;
+  margin: 20px 0px;
+}
+
+#badge-showcase {
+  text-align: center;
+}
+
+.table-responsive.table-borderless {
+  margin: auto;
+}
+
+#sidecard {
+  text-align: center;
+  background-color: #ffffff;
+  margin: auto;
+}
+
+.sidecard-body > ul {
+  display: inline-block;
+}
+
+#profile-with-badges {
+  background-color: #ffffff;
+  margin: auto;
+  max-width: 90%;
+}
+
+@media (min-width: 300px) {
+  #profile-with-badges {
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 576px) {
+  #profile-with-badges {
+    max-width: 70%;
+  }
+}
+
+@media (min-width: 768px) {
+  #profile-with-badges {
+    max-width: 90%;
+    margin: auto;
+  }
+}
+
+#compcard {
+  text-align: center;
+  margin: auto;
+}
+
+.compcard-body > ul {
+  display: inline-block;
+}
+
