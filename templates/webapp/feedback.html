@@ -6,15 +6,6 @@
 {% endblock %}
 
 {% block body %}
-    <nav class="navbar navbar-light navbar-expand-md navigation-clean-button" style="width: 100%;">
-        <div class="container"><a class="navbar-brand" href="#">Conserveire</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navcol-1">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-                </ul><span class="navbar-text actions"> <a class="login" href="#">Register</a><a class="btn btn-light action-button" role="button" href="#">Log In</a></span>
-            </div>
-        </div>
-    </nav>
     <section id="shadedsection" class="shadedsection" style="padding: 19px;">
         <div class="container">
             <div class="row">
@@ -98,4 +89,15 @@
             </div>
         </div>
     </section>
+
+    <p>
+{% for usage in data1 %}
+            Your energy usage for the month is: {{ usage.aug }}
+            <br>
+            Your energy usage for last month is: {{ usage.jul }}
+        {% endfor %}
+
+
+
+    </p>
 {% endblock %}

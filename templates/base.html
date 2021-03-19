@@ -32,24 +32,46 @@
 
     <body>
 
-        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-            <a class="navbar-brand" href="/">Conserveire</a>
-            <ul class="nav navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="/webapp/profile">Profile</a>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/webapp/register">Register</a>
-                </li>
-                <li>
-                     <a class="nav-link" href="/webapp/logout">Logout</a>
-                </li>
-            </ul>
+    <! -- nav for when users are logged in  -->
 
-        </nav>
-<br>
+         <nav class="navbar navbar-light navbar-expand-md navigation-clean-button">
+        <div class="container"><a class="navbar-brand" href="/webapp" style="color: rgb(51, 51, 51);">Conserveire</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-1">
+
+                <! -- nav for when users are logged in  -->
+                {% if user.is_authenticated %}
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item"><a class="nav-link" href="/webapp">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/webapp/profile">Profile</a></li>
+
+                    <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" aria-expanded="false" data-toggle="dropdown" href="#">Your Energy</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/webapp/monthly_use_form/">Submit Energy Use</a>
+                            <a class="dropdown-item" href="/webapp/feedback/">Personal Monthly Feedback</a>
+                            <a class="dropdown-item" href="#">County Leaderboard & Comparison</a>
+                        </div>
+
+                    <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" aria-expanded="false" data-toggle="dropdown" href="#">County and Country Energy</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">County Monthly Feedback</a>
+                            <a class="dropdown-item" href="#">See How Your County Compares</a>
+                            <a class="dropdown-item" href="#">County Leaderboard</a>
+                        </div>
+
+                </ul><span class="navbar-text actions">
+                <a class="btn btn-light action-button" role="button" href="/webapp/logout">Log Out</a></span>
+
+                <! -- nav for when users are NOT logged in  -->
+                {% else %}
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item"><a class="nav-link" href="/webapp">Home</a></li>
+                </ul><span class="navbar-text actions">
+                <a class="login" href="/webapp/register">Register</a>
+                <a class="btn btn-light action-button" role="button" href="/webapp/login">Log In</a></span>
+                {% endif %}
+            </div>
+        </div>
+         </nav>
         {% block body %}
 
         {% endblock %}
