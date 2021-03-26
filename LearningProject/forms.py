@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from LearningProject.models import Usage, UserProfile
 
-
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True)
 

@@ -45,7 +45,11 @@
                         </div>
                         <div id="sidecard-body" class="sidecard-body" style="padding-top: 19px;padding-bottom: 8px;">
                             <ul class="text-left" style="font-size: 17px;margin: 0px;margin-bottom: 0;">
-                                <li>Your energy consumption this month was (x)</li>
+                                <li>
+                                    {% for usage in data1 %}
+                                            Your energy usage for the month is: {{ usage.mar }}
+                                        {% endfor %}
+                                </li>
                                 <li>You reduced your energy consumption by (x)% !</li>
                                 <li>Your reduction in energy consumption saved you $$$&nbsp;</li>
                                 <li>You used (x)kWh less this month</li>

@@ -12,6 +12,7 @@ COUNTY_CHOICES = [
     ('kerry', 'Kerry'),
 ]
 
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     county = models.CharField(max_length=20, choices=COUNTY_CHOICES)
@@ -20,6 +21,7 @@ class UserProfile(models.Model):
         return self.user.username
 
 
+# create and save user profile object
 def create_profile(sender, **kwargs):
     if kwargs['created']:
         user_profile = UserProfile.objects.create(user=kwargs['instance'])
@@ -28,18 +30,20 @@ def create_profile(sender, **kwargs):
 post_save.connect(create_profile, sender=User)
 
 
+# monthly usage model, unique for logged in user, blank=True for month
+# fields to facilitate partial form submission and conditional field rendering
 class Usage(models.Model):
-    submitted = models.DateField(auto_now='TRUE'),
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    jan = models.IntegerField(default=0)
-    feb = models.IntegerField(default=0)
-    mar = models.IntegerField(default=0)
-    apr = models.IntegerField(default=0)
-    may = models.IntegerField(default=0)
-    jun = models.IntegerField(default=0)
-    jul = models.IntegerField(default=0)
-    aug = models.IntegerField(default=0)
-    sep = models.IntegerField(default=0)
-    oct = models.IntegerField(default=0)
-    nov = models.IntegerField(default=0)
-    dec = models.IntegerField(default=0)
+    submitted = models.DateField(auto_now_add='TRUE'),
+    user = models.ForeignKey(User, unique=True, on_delete=models.CASCADE)
+    jan = models.IntegerField(default=0, blank=True)
+    feb = models.IntegerField(default=0, blank=True)
+    mar = models.IntegerField(default=0, blank=True)
+    apr = models.IntegerField(default=0, blank=True)
+    may = models.IntegerField(default=0, blank=True)
+    jun = models.IntegerField(default=0, blank=True)
+    jul = models.IntegerField(default=0, blank=True)
+    aug = models.IntegerField(default=0, blank=True)
+    sep = models.IntegerField(default=0, blank=True)
+    oct = models.IntegerField(default=0, blank=True)
+    nov = models.IntegerField(default=0, blank=True)
+    dec = models.IntegerField(default=0, blank=True)

@@ -3,6 +3,7 @@ from django.shortcuts import redirect
 from LearningProject.forms import RegistrationForm, UsageForm, EditProfileForm
 from LearningProject.models import Usage
 from django.contrib.auth.decorators import login_required
+from datetime import datetime
 from django.db.models import Avg
 from django.contrib.auth.models import User
 
@@ -57,8 +58,11 @@ def view_feedback(request):
 @login_required
 def monthly_use(request):
     user = request.user
+    # instantiate Usage model data for signed in user
+    usagedata = Usage.objects.get(user_id=user)
     if request.method == 'POST':
-        form = UsageForm(request.POST)
+        # instance enables updating of database values from fresh form / model variables
+        form = UsageForm(request.POST, instance=usagedata)
         if form.is_valid():
             usage = form.save(commit=False)
             usage.user = request.user
@@ -66,5 +70,13 @@ def monthly_use(request):
             return redirect('/webapp/feedback')
     else:
         form = UsageForm(instance=request.user)
-        args = {'form': form}
+        # check current month, used later at template level to render only the form field of current month
+        thismonth = datetime.now().strftime('%m')
+        args = {'form': form, 'thismonth': thismonth}
         return render(request, 'webapp/monthly_use_form.html', args)
+
+# function to check date
+
+# def checkdate():
+#     thismonth = datetime.now().strftime('%m')
+#     return thismonth

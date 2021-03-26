@@ -10,11 +10,40 @@
 
         <form method="POST">
             {% csrf_token %}
-            {{ form.as_p }}
+
+            {% if thismonth == "01" %}
+            {{ form.jan }}
+            {% elif thismonth == "02" %}
+            {{ form.feb }}
+            {% elif thismonth == "03" %}
+            {{ form.mar }}
+            {% elif thismonth == "04" %}
+            {{ form.apr }}
+            {% elif thismonth == "05" %}
+            {{ form.may }}
+            {% elif thismonth == "06" %}
+            {{ form.jun }}
+            {% elif thismonth == "07" %}
+            {{ form.jul }}
+            {% elif thismonth == "08" %}
+            {{ form.aug }}
+            {% elif thismonth == "09" %}
+            {{ form.sep }}
+            {% elif thismonth == "10" %}
+            {{ form.oct }}
+            {% elif thismonth == "11" %}
+            {{ form.nov }}
+            {% elif thismonth == "12" %}
+            {{ form.dec }}
+            {% endif %}
+
             <br>
             <button type="submit" class="btn-success">Submit</button>
         </form>
 
     </div>
 
+    {% if thismonth == "03" %}
+    Its March my dudes
+    {% endif %}
 {% endblock %}
