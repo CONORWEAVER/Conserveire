@@ -134,6 +134,11 @@
     Your energy usage for the month is: {{ data2 }}
         <br>
     Your energy usage for last month is: {{ data3 }}
+        <br>
+
+    {% for county in data1 %}
+            Your county is: {{ county.county }}
+{% endfor %}
     </p>
 
 

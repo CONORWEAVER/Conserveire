@@ -45,4 +45,4 @@ class UsageForm(ModelForm):
     class Meta:
         model = Usage
         fields = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec','county']

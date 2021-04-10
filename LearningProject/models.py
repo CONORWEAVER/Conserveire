@@ -46,4 +46,5 @@ class Usage(models.Model):
     Oct = models.IntegerField(default=0, blank=True)
     Nov = models.IntegerField(default=0, blank=True)
     Dec = models.IntegerField(default=0, blank=True)
+    county = models.CharField(max_length=25, choices=COUNTY_CHOICES, default='')
     submitted = models.DateField(auto_now_add='TRUE'),
