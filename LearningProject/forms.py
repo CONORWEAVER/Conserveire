@@ -44,5 +44,5 @@ class EditProfileForm(UserChangeForm):
 class UsageForm(ModelForm):
     class Meta:
         model = Usage
-        fields = ['jan', 'feb', 'mar', 'apr', 'may', 'jun',
-                  'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+        fields = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']

@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from LearningProject.forms import RegistrationForm, UsageForm, EditProfileForm
 from LearningProject.models import Usage
 from django.contrib.auth.decorators import login_required
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.db.models import Avg
 from django.contrib.auth.models import User
 
@@ -48,11 +48,54 @@ def edit_profile(request):
 
 @login_required
 def view_feedback(request):
+    # logic to identify current month and last month, returning string in abbreviated month format for each variable
+    today = datetime.now()
+    thismonth = today.strftime('%b')
+    thismonth_full = today.strftime('%B')
+    calcprev = today.replace(day=1) - timedelta(days=1)
+    lastmonth = calcprev.strftime('%b')
+
+    # data1 holds queryset of Usage model containing data for currently signed in user
     data1 = Usage.objects.filter(user=request.user)
-    context = {
-        'data1': data1
-    }
-    return render(request, "webapp/feedback.html", context)
+
+    # for loop iterates through data1 to check stored value for current month, assigns to 'data2'
+    # data2 stores integer value of current month energy usage from Usage model
+    # data3 stores integer value of previous month, used for progress checks and comparisons later
+    for m in data1:
+        if thismonth == 'Jan':
+            data2 = m.Jan
+        elif thismonth == 'Feb':
+            data2 = m.Feb
+        elif thismonth == 'Apr':
+            data2 = m.Apr
+            data3 = m.Mar
+
+        if data2 < data3:
+            progress_check = 'Congratulations on a Green ' + thismonth_full + '!'
+            greenmonth = True
+        elif data2 > data3:
+            progress_check = 'You did not reduce your energy use in ' + thismonth_full + '.'
+            greenmonth = False
+
+        if greenmonth:
+            difference = data3 - data2
+            percentage_change = int(difference / data3 * 100)
+
+
+        else:
+            difference = data2 - data3
+            percentage_change = int(difference / data2 * 100)
+
+
+
+
+
+    args = {'data1': data1,
+            'lastmonth': lastmonth, 'thismonth': thismonth,
+            'data2': data2, 'data3': data3,
+            'progress_check': progress_check, 'greenmonth': greenmonth,
+            'difference': difference, 'percentage_change': percentage_change}
+    return render(request, "webapp/feedback.html", args)
 
 
 @login_required
@@ -74,9 +117,3 @@ def monthly_use(request):
         thismonth = datetime.now().strftime('%m')
         args = {'form': form, 'thismonth': thismonth}
         return render(request, 'webapp/monthly_use_form.html', args)
-
-# function to check date
-
-# def checkdate():
-#     thismonth = datetime.now().strftime('%m')
-#     return thismonth

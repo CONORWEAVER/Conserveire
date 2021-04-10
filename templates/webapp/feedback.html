@@ -41,24 +41,46 @@
                     <div id="sidecard" style="margin-top: 20px;border-radius: 9px;">
                         <div id="sidecard-top" style="padding-bottom: 2.5px;border-bottom: 1px solid rgba(33,37,41,0.06) ;">
                             <h3 style="padding-top: 17px;margin-bottom: 0;padding-bottom: 12px;">Monthly Summary</h3>
-                            <p class="text-secondary" style="font-size: 18px;">Congratulations on a [green] month!&nbsp;Here is your month in review:<br></p>
+                            <p class="text-secondary" style="font-size: 18px;">{{ progress_check }}&nbsp;Here is your month in review:<br></p>
                         </div>
+{#conditionally render specific metrics and congratulate user when they have had a green month#}
+                        {% if greenmonth %}
                         <div id="sidecard-body" class="sidecard-body" style="padding-top: 19px;padding-bottom: 8px;">
                             <ul class="text-left" style="font-size: 17px;margin: 0px;margin-bottom: 0;">
-                                <li>
-                                    {% for usage in data1 %}
-                                            Your energy usage for the month is: {{ usage.mar }}
-                                        {% endfor %}
-                                </li>
-                                <li>You reduced your energy consumption by (x)% !</li>
+                                <li>Your energy usage for the month is: {{ data2 }}</li>
+                                <li>You reduced your energy consumption by {{ percentage_change }}% !</li>
                                 <li>Your reduction in energy consumption saved you $$$&nbsp;</li>
-                                <li>You used (x)kWh less this month</li>
+                                <li>You used {{ difference }}kWh less this month</li>
                             </ul>
                         </div>
+
                         <div id="sidecard-bottom">
                             <p data-bss-hover-animate="swing" style="margin: 0;padding-bottom: 14px;padding-top: 14px;"><i class="fa fa-star border rounded-circle rubberBand animated" style="background: #74c69d;padding: 11px;font-size: 18px;"></i><br></p>
                             <p class="text-secondary" style="font-size: 16px;margin: 0;padding-top: 5px;">You have been awarded the Green [Month] Badge.<br>Your actions have a real impact on the health of our planet. <br><br></p>
                         </div>
+
+{#conditionally render if user failed to reduce consumption#}
+                        {% else %}
+
+                            <div id="sidecard-body" class="sidecard-body" style="padding-top: 19px;padding-bottom: 8px;">
+                            <ul class="text-left" style="font-size: 17px;margin: 0px;margin-bottom: 0;">
+                                <li>Your energy usage for the month is: {{ data2 }}</li>
+                                <li>Your energy consumption was {{ percentage_change }}% higher this month</li>
+                                <li>You spent $$$ more on energy this month&nbsp;</li>
+                                <li>You used {{ difference }}kWh more energy this month</li>
+                            </ul>
+                        </div>
+
+
+
+                           <div id="sidecard-bottom">
+                            <p data-bss-hover-animate="swing" style="margin: 0;padding-bottom: 14px;padding-top: 14px;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" class="border rounded-circle rubberBand animated" style="background: var(--danger);padding: 7px;font-size: 49px;">
+                                    <path d="M9.17163 16.1716C10.7337 14.6095 13.2664 14.6095 14.8285 16.1716M9 10H9.01M15 10H15.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg><br></p>
+                            <p class="text-secondary" style="font-size: 16px;margin: 0;padding-top: 5px;">We know you're trying! Click <strong>here</strong>&nbsp;for some energy saving tips<br>You have the power to make a real impact on the health of our planet. <br><br></p>
+                        </div>
+
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -95,13 +117,25 @@
     </section>
 
     <p>
-{% for usage in data1 %}
-            Your energy usage for the month is: {{ usage.aug }}
-            <br>
-            Your energy usage for last month is: {{ usage.jul }}
-        {% endfor %}
+{#{% for usage in data1 %}#}
+{#            Your energy usage for the month is: {{ usage.Aug }}#}
+{#            <br>#}
+{#            Your energy usage for last month is: {{ usage.Jul }}#}
+{#{% endfor %}#}
 
-
-
+    <p>
+    Current month is: {{ thismonth }}
+        <br>
+    Last month is: {{ lastmonth }}
     </p>
+
+
+    <p>
+    Your energy usage for the month is: {{ data2 }}
+        <br>
+    Your energy usage for last month is: {{ data3 }}
+    </p>
+
+
+
 {% endblock %}
