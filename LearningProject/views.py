@@ -176,7 +176,7 @@ def monthly_use(request):
             return HttpResponse('<h1>You already told us your usage this month, my dude')
 
     # catches exception for new users without pre-existing data in the Usage model, creates new database entry
-    # for signed in user ID
+    # for signed in user ID.
     except ObjectDoesNotExist:
         if request.method == 'POST':
             # instance enables updating of database values from fresh form / model variables
