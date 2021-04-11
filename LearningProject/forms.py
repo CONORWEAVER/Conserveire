@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from LearningProject.models import Usage, UserProfile
 
+
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True)
 
@@ -45,4 +46,5 @@ class UsageForm(ModelForm):
     class Meta:
         model = Usage
         fields = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec','county']
+                  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'county',
+                  'cost']

@@ -19,8 +19,6 @@
             {{ form.Mar }}
             {% elif thismonth == "04" %}
             {{ form.Apr }}
-                <br>
-            {{ form.county }}
             {% elif thismonth == "05" %}
             {{ form.May }}
             {% elif thismonth == "06" %}
@@ -38,6 +36,18 @@
             {% elif thismonth == "12" %}
             {{ form.Dec }}
             {% endif %}
+
+
+                <br>
+{#            {{ form.cost }}#}
+                <br>
+                <br>
+
+            {% if enter_county %}
+                This is your first time entering your usage! <br>
+                For more meaningful comparisons and tailored feedback, please tell us what county you are from: {{ form.county }}
+            {% endif %}
+
 
             <br>
             <button type="submit" class="btn-success">Submit</button>

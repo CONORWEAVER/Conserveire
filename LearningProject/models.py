@@ -27,6 +27,7 @@ def create_profile(sender, **kwargs):
         user_profile = UserProfile.objects.create(user=kwargs['instance'])
 
 
+
 post_save.connect(create_profile, sender=User)
 
 
@@ -46,5 +47,6 @@ class Usage(models.Model):
     Oct = models.IntegerField(default=0, blank=True)
     Nov = models.IntegerField(default=0, blank=True)
     Dec = models.IntegerField(default=0, blank=True)
-    county = models.CharField(max_length=25, choices=COUNTY_CHOICES, default='')
+    county = models.CharField(max_length=25, choices=COUNTY_CHOICES, blank=True)
+    cost = models.IntegerField(default=0, blank=True)
     submitted = models.DateField(auto_now_add='TRUE'),

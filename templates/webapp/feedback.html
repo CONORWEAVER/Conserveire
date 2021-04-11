@@ -47,9 +47,9 @@
                         {% if greenmonth %}
                         <div id="sidecard-body" class="sidecard-body" style="padding-top: 19px;padding-bottom: 8px;">
                             <ul class="text-left" style="font-size: 17px;margin: 0px;margin-bottom: 0;">
-                                <li>Your energy usage for the month is: {{ data2 }}</li>
+                                <li>Your energy usage for the month was: {{ data2 }} kWh</li>
                                 <li>You reduced your energy consumption by {{ percentage_change }}% !</li>
-                                <li>Your reduction in energy consumption saved you $$$&nbsp;</li>
+                                <li>Your reduction in energy consumption saved you €{{ savings }}&nbsp;</li>
                                 <li>You used {{ difference }}kWh less this month</li>
                             </ul>
                         </div>
@@ -64,9 +64,9 @@
 
                             <div id="sidecard-body" class="sidecard-body" style="padding-top: 19px;padding-bottom: 8px;">
                             <ul class="text-left" style="font-size: 17px;margin: 0px;margin-bottom: 0;">
-                                <li>Your energy usage for the month is: {{ data2 }}</li>
+                                <li>Your energy usage for the month was: {{ data2 }}kWh</li>
                                 <li>Your energy consumption was {{ percentage_change }}% higher this month</li>
-                                <li>You spent $$$ more on energy this month&nbsp;</li>
+                                <li>You spent €{{ savings }} more on energy this month&nbsp;</li>
                                 <li>You used {{ difference }}kWh more energy this month</li>
                             </ul>
                         </div>
@@ -134,6 +134,10 @@
     Your energy usage for the month is: {{ data2 }}
         <br>
     Your energy usage for last month is: {{ data3 }}
+        <br>
+    Your cost is : {{ cost }}
+        <br>
+    Your savings are: {{ savings }}
         <br>
 
     {% for county in data1 %}
