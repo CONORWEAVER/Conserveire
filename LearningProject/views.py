@@ -4,6 +4,7 @@ from LearningProject.forms import RegistrationForm, UsageForm, EditProfileForm
 from LearningProject.models import Usage
 from django.contrib.auth.decorators import login_required
 from datetime import datetime, timedelta
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Avg
 from django.contrib.auth.models import User
 
@@ -129,29 +130,57 @@ def view_feedback(request):
 @login_required
 def monthly_use(request):
     user = request.user
-    # instantiate Usage model data for signed in user
-    usagedata = Usage.objects.get(user_id=user)
+    # tries to instantiate Usage model data for signed in user
+    try:
+        usagedata = Usage.objects.get(user_id=user)
 
-    # code block to check current month and set data2 to represent model data for current month, then used to
-    # conditionally render form to user, or tell them they have already entered this months usage
-    today = datetime.now()
-    thismonth = today.strftime('%m')
-    data1 = Usage.objects.filter(user=request.user)
-    for m in data1:
-        if thismonth == '01':
-            data2 = m.Jan
-        elif thismonth == '02':
-            data2 = m.Feb
-        elif thismonth == '04':
-            data2 = m.Apr
+        # code block to check current month and set data2 to represent model data for current month, then used to
+        # conditionally render form to user, or tell them they have already entered this months usage
+        today = datetime.now()
+        thismonth = today.strftime('%m')
+        data1 = Usage.objects.filter(user=request.user)
+        for m in data1:
+            if thismonth == '01':
+                data2 = m.Jan
+            elif thismonth == '02':
+                data2 = m.Feb
+            elif thismonth == '04':
+                data2 = m.Apr
 
-    for county in data1:
-        county = county.county
+        for county in data1:
+            county = county.county
 
-    if data2 == 0:
+        if data2 == 0:
+            if request.method == 'POST':
+                # instance enables updating of database values from fresh form / model variables
+                form = UsageForm(request.POST, instance=usagedata)
+                if form.is_valid():
+                    usage = form.save(commit=False)
+                    usage.user = request.user
+                    usage.save()
+                return redirect('/webapp/feedback')
+            else:
+                form = UsageForm(instance=request.user)
+                # check current month, used later at template level to render only the form field of current month
+                thismonth = datetime.now().strftime('%m')
+
+                # check if user has entered a county already, used in template for conditional render of form
+                if county == '':
+                    enter_county = True
+                else:
+                    enter_county = False
+
+                args = {'form': form, 'thismonth': thismonth, 'enter_county': enter_county}
+                return render(request, 'webapp/monthly_use_form.html', args)
+        else:
+            return HttpResponse('<h1>You already told us your usage this month, my dude')
+
+    # catches exception for new users without pre-existing data in the Usage model, creates new database entry
+    # for signed in user ID
+    except ObjectDoesNotExist:
         if request.method == 'POST':
             # instance enables updating of database values from fresh form / model variables
-            form = UsageForm(request.POST, instance=usagedata)
+            form = UsageForm(request.POST)
             if form.is_valid():
                 usage = form.save(commit=False)
                 usage.user = request.user
@@ -161,14 +190,6 @@ def monthly_use(request):
             form = UsageForm(instance=request.user)
             # check current month, used later at template level to render only the form field of current month
             thismonth = datetime.now().strftime('%m')
-
-            # check if user has entered a county already, used in template for conditional render of form
-            if county == '':
-                enter_county = True
-            else:
-                enter_county = False
-
-            args = {'form': form, 'thismonth': thismonth, 'enter_county': enter_county}
+            args = {'form': form, 'thismonth': thismonth}
             return render(request, 'webapp/monthly_use_form.html', args)
-    else:
-        return HttpResponse('<h1>You already told us your usage this month, my dude')
+
