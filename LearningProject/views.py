@@ -213,10 +213,13 @@ def county_feedback(request):
     usagedata = Usage.objects.filter(user=request.user)
     for c in usagedata:
         county = c.county
+    for d in usagedata:
+        reduction = d.reduction_percentage
 
     data1 = Usage.objects.filter(county=county)
     for m in data1:
         Apr = m.Apr
+
 
     countydata = Usage.objects.filter(user__usage__county=county).values('Apr', 'user_id')
     countyavg = countydata.aggregate(Avg('Apr'))
@@ -226,10 +229,15 @@ def county_feedback(request):
         percentile = int((data1.filter(Apr__lte=600).count()) / count_values * 100)
     else:
         return 0.0
+    count_values2 = countydata.count()
+    if count_values2:
+        percentile2 = int((data1.filter(reduction_percentage__lte=reduction).count()) / count_values * 100)
 
     betterThan = 100 - percentile
 
+
+
     args = {'countydata': countydata, 'countyavg': countyavg, 'percentile': percentile,
             'Apr': Apr, 'county': county, 'betterThan': betterThan,
-            'thismonth_full': thismonth_full}
+            'thismonth_full': thismonth_full, 'percentile2': percentile2}
     return render(request, 'webapp/county_feedback.html', args)
