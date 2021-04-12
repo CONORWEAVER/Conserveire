@@ -60,6 +60,8 @@ def view_feedback(request):
 
     # data1 holds queryset of Usage model containing data for currently signed in user
     data1 = Usage.objects.filter(user=request.user)
+    # return same data as in data1, but in object form. Used for saving variables to model
+    usagedata = Usage.objects.get(user=request.user)
 
     # retrieve cost value from Usage model for signed in user, store in cost variable
     for c in data1:
@@ -90,7 +92,12 @@ def view_feedback(request):
                 greenmonth = True
                 # calculate difference between last month and previous month, calculate % change in consumption
                 difference = data3 - data2
+                usagedata.difference = difference  # update usagedata object
                 percentage_change = int(difference / data3 * 100)
+                usagedata.reduction_percentage = percentage_change
+                usagedata.save()  # save updated object to database / Usage model
+
+
                 # calculate per unit rate of consumption, calculate savings based on unit rate and change in consumption
                 rate = cost / data2
                 savings = int(rate * difference)
@@ -135,7 +142,6 @@ def monthly_use(request):
     # tries to instantiate Usage model data for signed in user
     try:
         usagedata = Usage.objects.get(user_id=user)
-
         # code block to check current month and set data2 to represent model data for current month, then used to
         # conditionally render form to user, or tell them they have already entered this months usage
         today = datetime.now()
@@ -148,6 +154,7 @@ def monthly_use(request):
                 data2 = m.Feb
             elif thismonth == '04':
                 data2 = m.Apr
+                data3 = m.Mar
 
         for county in data1:
             county = county.county
@@ -155,12 +162,12 @@ def monthly_use(request):
         if data2 == 0:
             if request.method == 'POST':
                 # instance enables updating of database values from fresh form / model variables
-                difference = 123
+                # difference = data3 - data2
                 form = UsageForm(request.POST, instance=usagedata)
                 if form.is_valid():
                     usage = form.save(commit=False)
                     usage.user = request.user
-                    usage.difference = difference
+                    # usage.difference = usage.Mar - usage.Apr
                     usage.save()
                 return redirect('/webapp/feedback')
             else:
@@ -200,7 +207,6 @@ def monthly_use(request):
 
 @login_required
 def county_feedback(request):
-
     today = datetime.now()
     thismonth_full = today.strftime('%B')
 

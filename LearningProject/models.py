@@ -50,4 +50,5 @@ class Usage(models.Model):
     county = models.CharField(max_length=25, choices=COUNTY_CHOICES, blank=True)
     cost = models.IntegerField(default=0, blank=True)
     difference = models.IntegerField(default=0, blank=True)
+    reduction_percentage = models.IntegerField(default=0, blank=True)
     submitted = models.DateField(auto_now_add='TRUE'),
