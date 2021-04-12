@@ -16,7 +16,8 @@ urlpatterns = [
     url(r'^profile/edit/$', views.edit_profile, name='edit_profile'),
     url(r'^register/$', views.register, name='register'),
     url(r'^feedback/$', views.view_feedback, name='webapp/feedback.html'),
-    url(r'^monthly_use_form/$', views.monthly_use, name='webapp/monthly_use_form.html')
+    url(r'^monthly_use_form/$', views.monthly_use, name='webapp/monthly_use_form.html'),
+    url(r'^county_feedback/$', views.county_feedback, name = 'webapp/county_feedback.html')
 
 
 ]

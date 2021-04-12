@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from datetime import datetime, timedelta
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Avg
+import re
+import json
 from django.contrib.auth.models import User
 
 
@@ -86,10 +88,10 @@ def view_feedback(request):
             if data2 != 0 and data3 != 0:
                 progress_check = 'Congratulations on a Green ' + thismonth_full + '!'
                 greenmonth = True
-        # calculate difference between last month and previous month, calculate % change in consumption
+                # calculate difference between last month and previous month, calculate % change in consumption
                 difference = data3 - data2
                 percentage_change = int(difference / data3 * 100)
-        # calculate per unit rate of consumption, calculate savings based on unit rate and change in consumption
+                # calculate per unit rate of consumption, calculate savings based on unit rate and change in consumption
                 rate = cost / data2
                 savings = int(rate * difference)
                 args = {'data1': data1,
@@ -153,10 +155,12 @@ def monthly_use(request):
         if data2 == 0:
             if request.method == 'POST':
                 # instance enables updating of database values from fresh form / model variables
+                difference = 123
                 form = UsageForm(request.POST, instance=usagedata)
                 if form.is_valid():
                     usage = form.save(commit=False)
                     usage.user = request.user
+                    usage.difference = difference
                     usage.save()
                 return redirect('/webapp/feedback')
             else:
@@ -193,3 +197,33 @@ def monthly_use(request):
             args = {'form': form, 'thismonth': thismonth}
             return render(request, 'webapp/monthly_use_form.html', args)
 
+
+@login_required
+def county_feedback(request):
+
+    today = datetime.now()
+    thismonth_full = today.strftime('%B')
+
+    usagedata = Usage.objects.filter(user=request.user)
+    for c in usagedata:
+        county = c.county
+
+    data1 = Usage.objects.filter(county=county)
+    for m in data1:
+        Apr = m.Apr
+
+    countydata = Usage.objects.filter(user__usage__county=county).values('Apr', 'user_id')
+    countyavg = countydata.aggregate(Avg('Apr'))
+
+    count_values = countydata.count()
+    if count_values:
+        percentile = int((data1.filter(Apr__lte=600).count()) / count_values * 100)
+    else:
+        return 0.0
+
+    betterThan = 100 - percentile
+
+    args = {'countydata': countydata, 'countyavg': countyavg, 'percentile': percentile,
+            'Apr': Apr, 'county': county, 'betterThan': betterThan,
+            'thismonth_full': thismonth_full}
+    return render(request, 'webapp/county_feedback.html', args)

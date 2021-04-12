@@ -1,0 +1,222 @@
+{% extends 'base.html' %}
+
+{%  block head %}
+    <title>County Feedback</title>
+{% endblock %}
+
+{% block body %}
+    <section id="shadedsection" class="shadedsection" style="padding: 19px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-lg-4" style="background: rgba(0,0,0,0);margin-bottom: 20px;">
+                    <div id="profile-with-badges" style="border-radius: 9px;border-width: 2px;border-style: none;">
+                        <div id="profilecard" style="background: rgba(0,0,0,0);padding-top: 12px;border-width: 1px;border-bottom: 1px solid rgba(33,37,41,0.06) ;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-person-fill border rounded-circle" style="font-size: 105px;border-width: 0px;border-style: none;">
+                                <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                            </svg>
+                            <p class="text-secondary" style="padding-top: 9px;">User Name</p>
+                        </div>
+                        <div id="badge-showcase" style="padding-bottom: 20px;">
+                            <h3>Badges</h3>
+                            <div class="table-responsive table-borderless" style="margin-top: 20px;width: 217.984px;">
+                                <table class="table table-bordered table-sm">
+                                    <tbody>
+                                        <tr style="height: 50px;">
+                                            <td data-bss-hover-animate="swing"><i class="fa fa-star border rounded-circle rubberBand animated" style="background: #74c69d;padding: 11px;font-size: 18px;"></i></td>
+                                            <td data-bss-hover-animate="swing"><i class="fa fa-star border rounded-circle rubberBand animated" style="background: #74c69d;padding: 11px;font-size: 18px;"></i></td>
+                                            <td data-bss-hover-animate="swing"><i class="fa fa-star border rounded-circle rubberBand animated" style="background: #74c69d;padding: 11px;font-size: 18px;"></i></td>
+                                        </tr>
+                                        <tr style="height: 50px;">
+                                            <td data-bss-hover-animate="swing" style="padding-top: 13.8px;"><i class="fa fa-star border rounded-circle rubberBand animated" style="background: #74c69d;padding: 11px;font-size: 18px;"></i></td>
+                                            <td data-bss-hover-animate="swing" style="padding-top: 13.8px;"><i class="fa fa-star border rounded-circle rubberBand animated" style="background: #74c69d;padding: 11px;font-size: 18px;"></i></td>
+                                            <td data-bss-hover-animate="swing" style="padding-top: 13.8px;"><i class="fa fa-star border rounded-circle rubberBand animated" style="background: #74c69d;padding: 11px;font-size: 18px;"></i>&nbsp;</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-8" style="background: rgba(0,0,0,0);margin: 0;margin-bottom: 20px;">
+                    <div id="sidecard" style="margin-top: 20px;border-radius: 9px;">
+                        <div id="sidecard-top" style="padding-bottom: 2.5px;border-bottom: 1px solid rgba(33,37,41,0.06) ;">
+                            <h3 style="padding-top: 17px;margin-bottom: 0;padding-bottom: 12px;">How Do You Compare to Your County?</h3>
+                            <p class="text-secondary" style="font-size: 18px;">Congratulations on a [green] month!&nbsp;Here is how you compare this month:<br></p>
+                        </div>
+                        <div id="sidecard-body" class="sidecard-body" style="padding-top: 19px;padding-bottom: 8px;">
+                            <ul class="text-left" style="font-size: 17px;margin: 0px;margin-bottom: 0;">
+                                <li>You were in the top (x)% of energy consumption reduction in [your county]</li>
+                                <li>You saved more energy this month than (x)% of people in [your county]</li>
+                                <li>Average reduction in [your county]: (x)% vs Your reduction: (x)%<br></li>
+                                <li>Average consumption in [your county]: (x) vs Your consumption: (x)<br></li>
+                            </ul>
+                        </div>
+                        <div id="sidecard-bottom">
+                            <p data-bss-hover-animate="swing" style="margin: 0;padding-bottom: 14px;padding-top: 14px;"><i class="fa fa-star border rounded-circle rubberBand animated" style="background: #74c69d;padding: 11px;font-size: 18px;"></i><br></p>
+                            <p class="text-secondary" style="font-size: 16px;margin: 0;padding-top: 5px;">You have been awarded the Top [x] Badge for [month]<br>Your actions have a real impact on the health of our planet. <br><br></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="graph-sect">
+        <div class="container" style="padding: 40px;">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="text-left" style="padding-bottom: 17px;">{{ county }} {{ thismonth_full }} Reduction Leaderboard</h3>
+                    <div style="height: 500px;">
+                        <div class="table-responsive leaderboard" style="height: 100%;">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 10%;">Rank</th>
+                                        <th>Name</th>
+                                        <th class="text-right">Reduced By</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-left" style="width: 6%;">1</td>
+                                        <td><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-person-fill border rounded-circle" style="font-size: 41px;border-width: 0px;border-style: none;">
+                                                <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                                            </svg>&nbsp;User Name</td>
+                                        <td class="text-right">11%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="width: 6%;">2</td>
+                                        <td><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-person-fill border rounded-circle" style="font-size: 41px;border-width: 0px;border-style: none;">
+                                                <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                                            </svg>&nbsp;User Name</td>
+                                        <td class="text-right">11%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="width: 6%;">3</td>
+                                        <td><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-person-fill border rounded-circle" style="font-size: 41px;border-width: 0px;border-style: none;">
+                                                <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                                            </svg>&nbsp;User Name</td>
+                                        <td class="text-right">11%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="width: 6%;">4</td>
+                                        <td><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-person-fill border rounded-circle" style="font-size: 41px;border-width: 0px;border-style: none;">
+                                                <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                                            </svg>&nbsp;User Name</td>
+                                        <td class="text-right">11%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="width: 6%;">5</td>
+                                        <td><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-person-fill border rounded-circle" style="font-size: 41px;border-width: 0px;border-style: none;">
+                                                <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                                            </svg>&nbsp;User Name</td>
+                                        <td class="text-right">11%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="width: 6%;">6</td>
+                                        <td><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-person-fill border rounded-circle" style="font-size: 41px;border-width: 0px;border-style: none;">
+                                                <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                                            </svg>&nbsp;User Name</td>
+                                        <td class="text-right">11%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="width: 6%;">7</td>
+                                        <td><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-person-fill border rounded-circle" style="font-size: 41px;border-width: 0px;border-style: none;">
+                                                <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                                            </svg>&nbsp;User Name</td>
+                                        <td class="text-right">11%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="width: 6%;">8</td>
+                                        <td><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-person-fill border rounded-circle" style="font-size: 41px;border-width: 0px;border-style: none;">
+                                                <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                                            </svg>&nbsp;User Name</td>
+                                        <td class="text-right">11%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="width: 6%;">9</td>
+                                        <td><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-person-fill border rounded-circle" style="font-size: 41px;border-width: 0px;border-style: none;">
+                                                <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                                            </svg>&nbsp;User Name</td>
+                                        <td class="text-right">11%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="width: 6%;">10</td>
+                                        <td><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-person-fill border rounded-circle" style="font-size: 41px;border-width: 0px;border-style: none;">
+                                                <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                                            </svg>&nbsp;User Name</td>
+                                        <td class="text-right">11%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="width: 6%;">11</td>
+                                        <td><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-person-fill border rounded-circle" style="font-size: 41px;border-width: 0px;border-style: none;">
+                                                <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                                            </svg>&nbsp;User Name</td>
+                                        <td class="text-right">11%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="width: 6%;">12</td>
+                                        <td><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-person-fill border rounded-circle" style="font-size: 41px;border-width: 0px;border-style: none;">
+                                                <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                                            </svg>&nbsp;User Name</td>
+                                        <td class="text-right">11%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="width: 6%;">13</td>
+                                        <td><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-person-fill border rounded-circle" style="font-size: 41px;border-width: 0px;border-style: none;">
+                                                <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                                            </svg>&nbsp;User Name</td>
+                                        <td class="text-right">11%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="width: 6%;">14</td>
+                                        <td><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-person-fill border rounded-circle" style="font-size: 41px;border-width: 0px;border-style: none;">
+                                                <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                                            </svg>&nbsp;User Name</td>
+                                        <td class="text-right">11%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="width: 6%;">15</td>
+                                        <td><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-person-fill border rounded-circle" style="font-size: 41px;border-width: 0px;border-style: none;">
+                                                <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                                            </svg>&nbsp;User Name</td>
+                                        <td class="text-right">11%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="shadedsection-1" class="shadedsection">
+        <div class="container" style="padding: 40px;">
+            <div class="row">
+                <div class="col-md-12" style="text-align: center;">
+                    <div style="text-align: center;">
+                        <h3 class="text-left">Reduction Visualized</h3>
+                        <div><canvas data-bss-chart="{&quot;type&quot;:&quot;horizontalBar&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;January&quot;,&quot;February&quot;,&quot;March&quot;,&quot;April&quot;,&quot;May&quot;,&quot;June&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Revenue&quot;,&quot;backgroundColor&quot;:&quot;#4e73df&quot;,&quot;borderColor&quot;:&quot;#4e73df&quot;,&quot;data&quot;:[&quot;4500&quot;,&quot;5300&quot;,&quot;6250&quot;,&quot;7800&quot;,&quot;9800&quot;,&quot;15000&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:false,&quot;reverse&quot;:false,&quot;position&quot;:&quot;bottom&quot;},&quot;title&quot;:{}}}"></canvas></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% for c in countydata %}
+    The data is: {{ c.Apr }} , belonging to user with ID: {{ c.user_id}}<br>
+    {% endfor %}
+    <br>
+    The average usage in {{ county }} this month is: {{ countyavg.Apr__avg }}
+
+    <br>
+
+    You used less energy than {{ betterThan }}% of other users in {% for c in county %}{{ c.county }}{% endfor %} this month
+
+    <br>
+    April usage: {{ Apr }}
+
+    <br>
+
+    Users county is : {{ county }}
+
+{% endblock %}
+

@@ -7,9 +7,9 @@ from django.db.models.signals import post_save
 # Create your models here.
 
 COUNTY_CHOICES = [
-    ('cork', 'Cork'),
-    ('dublin', 'Dublin'),
-    ('kerry', 'Kerry'),
+    ('Cork', 'Cork'),
+    ('Dublin', 'Dublin'),
+    ('Kerry', 'Kerry'),
 ]
 
 
@@ -49,4 +49,5 @@ class Usage(models.Model):
     Dec = models.IntegerField(default=0, blank=True)
     county = models.CharField(max_length=25, choices=COUNTY_CHOICES, blank=True)
     cost = models.IntegerField(default=0, blank=True)
+    difference = models.IntegerField(default=0, blank=True)
     submitted = models.DateField(auto_now_add='TRUE'),
