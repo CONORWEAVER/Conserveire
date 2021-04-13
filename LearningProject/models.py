@@ -64,9 +64,12 @@ class Usage(models.Model):
 
     Mar_elec = models.IntegerField(default=0, blank=True)
     Apr_elec = models.IntegerField(default=0, blank=True)
+    elec_cost = models.IntegerField(default=0, blank=True)
 
     Mar_gas = models.IntegerField(default=0, blank=True)
     Apr_gas = models.IntegerField(default=0, blank=True)
+    gas_cost = models.IntegerField(default=0, blank=True)
 
     Mar_oil = models.IntegerField(default=0, blank=True)
     Apr_oil = models.IntegerField(default=0, blank =True)
+    oil_cost = models.IntegerField(default=0, blank=True)

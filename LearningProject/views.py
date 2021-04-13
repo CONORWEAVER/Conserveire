@@ -36,7 +36,8 @@ def register(request):
 
 @login_required
 def view_profile(request):
-    args = {'user': request.user}
+    usagedata = Usage.objects.get(user=request.user)
+    args = {'user': request.user, 'usagedata':usagedata}
     return render(request, "webapp/profile.html", args)
 
 
@@ -69,11 +70,14 @@ def view_feedback(request):
 
     # retrieve cost value from Usage model for signed in user, store in cost variable
     for c in data1:
-        cost = c.cost
+        elec_cost = c.elec_cost
+        gas_cost = c.gas_cost
+        oil_cost = c.oil_cost
         standingC = c.standing_charge
         county = c.county
         if county == '':
             county = 'your county'
+
         gas = c.gas
         electricity = c.electricity
         oil = c.oil
@@ -87,6 +91,7 @@ def view_feedback(request):
         febData = m.Feb
         marData = m.Mar
         aprData = m.Apr
+
         if thismonth == 'Jan':
             data2 = m.Jan
         elif thismonth == 'Feb':
@@ -95,13 +100,20 @@ def view_feedback(request):
             data2 = m.Apr
             data3 = m.Mar
 
+            oil2 = m.Apr_oil
+            gas2 = m.Apr_gas
+            elec2 = m.Apr_elec
+
+            oil3 = m.Mar_oil
+            gas3 = m.Mar_gas
+            elec3 = m.Mar_elec
+
         # set empty value for arg variables to avoid error when not populated due to later defined conditional blocks
 
         difference = ''
         percentage_change = 0
         savings = 0
-        cost = cost - standingC
-
+        elec_cost = elec_cost - standingC
 
         class GreenTestBadge(Badge):
             slug = "testbadge"
@@ -127,48 +139,90 @@ def view_feedback(request):
                 greenmonth = True
                 usagedata.greenmonth = True
                 badges.possibly_award_badge("testbadge_awarded", user=request.user)
+
                 # calculate difference between last month and previous month, calculate % change in consumption
+                # calculate per unit rate of consumption, calculate savings based on unit rate and change in consumption
+
+                elec_diff = elec3 - elec2
+                if elec_cost == 0:
+                    elec_rate = 0
+                else:
+                    elec_rate = elec_cost / elec2
+                elec_savings = int(elec_rate * elec_diff)
+
+                oil_diff = oil3 - oil2
+                if oil_cost == 0:
+                    oil_rate = 0
+                else:
+                    oil_rate = oil_cost / oil2
+                oil_savings = int(oil_rate * oil_diff)
+
+                gas_diff = gas3 - gas2
+                if gas_cost == 0:
+                    gas_rate = 0
+                else:
+                    gas_rate = gas_cost / gas2
+                gas_savings = int(gas_rate * gas_diff)
+
                 difference = data3 - data2
+                savings = (gas_savings + oil_savings + elec_savings)
+
                 usagedata.difference = difference  # update usagedata object
                 percentage_change = int(difference / data3 * 100)
                 usagedata.reduction_percentage = percentage_change
                 usagedata.save()  # save updated object to database / Usage model
 
-                # calculate per unit rate of consumption, calculate savings based on unit rate and change in consumption
-                rate = cost / data2
-                usagedata.rate = rate  # update usagedata object
-                usagedata.save()  # save updated object to database / Usage model
-
-                savings = int(rate * difference)
+                # savings = int(rate * difference)
                 args = {'data1': data1,
                         'lastmonth': lastmonth, 'thismonth': thismonth, 'county': county, 'greenmonth': greenmonth,
                         'data2': data2, 'data3': data3,
                         'progress_check': progress_check,
                         'difference': difference, 'percentage_change': percentage_change,
-                        'cost': cost, 'savings': savings, 'standingC': standingC, 'rate': rate,
-                        'janData': janData, 'febData': febData, 'marData': marData, 'aprData': aprData}
+                        'savings': savings, 'standingC': standingC,
+                        'janData': janData, 'febData': febData, 'marData': marData, 'aprData': aprData,
+                        'gas_savings': gas_savings, 'elec_savings': elec_savings, 'oil_savings': oil_savings}
                 return render(request, "webapp/feedback.html", args)
 
         elif data2 > data3:
             if data2 != 0 and data3 != 0:
                 progress_check = 'You did not reduce your energy use in ' + thismonth_full + '.'
                 greenmonth = False
+
+                elec_diff = elec2 - elec3
+                if elec_cost == 0:
+                    elec_rate =0
+                else:
+                    elec_rate = elec_cost / elec2
+                elec_savings = int(elec_rate * elec_diff)
+
+                oil_diff = oil2 - oil3
+                if oil_cost ==0:
+                    oil_rate =0
+                else:
+                    oil_rate = oil_cost / oil2
+                oil_savings = int(oil_rate * oil_diff)
+
+                gas_diff = gas2 - gas3
+                if gas_cost == 0:
+                    gas_rate =0
+                else:
+                    gas_rate = gas_cost / gas2
+                gas_savings = int(gas_rate * gas_diff)
+
                 difference = data2 - data3
                 percentage_change = int(difference / data2 * 100)
-                rate = cost / data2
                 usagedata.difference = difference  # update usagedata object
                 usagedata.reduction_percentage = 0
-                usagedata.rate = rate  # update usagedata object
                 usagedata.save()  # save updated object to database / Usage model
 
-                savings = int(rate * difference)
+                savings = (gas_savings + oil_savings + elec_savings)
 
                 args = {'data1': data1,
                         'lastmonth': lastmonth, 'thismonth': thismonth, 'county': county,
                         'data2': data2, 'data3': data3,
                         'progress_check': progress_check, 'greenmonth': greenmonth,
                         'difference': difference, 'percentage_change': percentage_change,
-                        'cost': cost, 'savings': savings, 'standingC': standingC, 'rate': rate,
+                        'savings': savings, 'standingC': standingC,
                         'janData': janData, 'febData': febData, 'marData': marData, 'aprData': aprData}
                 return render(request, "webapp/feedback.html", args)
 
@@ -211,9 +265,10 @@ def monthly_use(request):
                 if form.is_valid():
                     usage = form.save(commit=False)
                     if thismonth == '04':
-                        if usage.oil != 0:
-                            usage.oil = (usage.oil * 10.35) / usage.oil_frequency
-                        usage.Apr = usagedata.gas + usagedata.electricity + usage.oil
+                        if usage.Apr_oil != 0:
+                            if usage.oil_frequency != 0:
+                                usage.Apr_oil = (usage.Apr_oil * 10.35) / usage.oil_frequency
+                        usage.Apr = usagedata.Apr_gas + usagedata.Apr_elec + usagedata.Apr_oil
                         usage.user = request.user
                         usage.save()
                 return redirect('/webapp/feedback')
@@ -298,7 +353,7 @@ def comparative_feedback(request):
             'comparative_leaderboard': comparative_leaderboard, 'ranking': ranking, 'test': test}
     return render(request, 'webapp/comparative_feedback.html', args)
 
-
+@login_required
 def view_user_profile(request, username):
     usageUserdata = User.objects.filter(username=username).only('id')
     for n in usageUserdata:
@@ -307,3 +362,8 @@ def view_user_profile(request, username):
     user_profile = User.objects.get(username=username)
     args = {'user_profile': user_profile, 'usageUser': usageUser, 'usagedata': usagedata}
     return render(request, 'webapp/viewprofile.html', args)
+
+
+@login_required
+def group_feedback(request):
+    return render(request, 'webapp/group_feedback.html')

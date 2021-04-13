@@ -18,6 +18,7 @@ urlpatterns = [
     url(r'^monthly_use_form/$', views.monthly_use, name='webapp/monthly_use_form.html'),
     url(r'^comparative_feedback/$', views.comparative_feedback, name='webapp/comparative_feedback.html'),
     url(r"^badges/", include("pinax.badges.urls", namespace="pinax_badges")),
+    url(r'^group_feedback/$', views.group_feedback, name='webapp/group_feedback.html'),
     url(r'^user/(?P<username>[\w\-]+)/$', views.view_user_profile)
 
 ]

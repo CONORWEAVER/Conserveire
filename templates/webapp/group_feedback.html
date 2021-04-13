@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+    <title>Group Feedback Comparison</title>
+{% endblock %}
+{% block body %}
+    <section id="shadedsection" class="shadedsection" style="padding: 19px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-lg-4" style="background: rgba(0,0,0,0);margin-bottom: 20px;">
+                    <div id="profile-with-badges" style="border-radius: 9px;border-width: 2px;border-style: none;">
+                        <div id="profilecard" style="background: rgba(0,0,0,0);padding-top: 12px;border-width: 1px;border-bottom: 1px solid rgba(33,37,41,0.06) ;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-person-fill border rounded-circle" style="font-size: 105px;border-width: 0px;border-style: none;">
+                                <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                            </svg>
+                            <p class="text-secondary" style="padding-top: 9px;">User Name</p>
+                        </div>
+                        <div id="badge-showcase" style="padding-bottom: 20px;">
+                            <h3>Badges</h3>
+                            <div class="table-responsive table-borderless" style="margin-top: 20px;width: 217.984px;">
+                                <table class="table table-bordered table-sm">
+                                    <tbody>
+                                        <tr style="height: 50px;">
+                                            <td data-bss-hover-animate="swing"><i class="fa fa-star border rounded-circle rubberBand animated" style="background: #74c69d;padding: 11px;font-size: 18px;"></i></td>
+                                            <td data-bss-hover-animate="swing"><i class="fa fa-star border rounded-circle rubberBand animated" style="background: #74c69d;padding: 11px;font-size: 18px;"></i></td>
+                                            <td data-bss-hover-animate="swing"><i class="fa fa-star border rounded-circle rubberBand animated" style="background: #74c69d;padding: 11px;font-size: 18px;"></i></td>
+                                        </tr>
+                                        <tr style="height: 50px;">
+                                            <td data-bss-hover-animate="swing" style="padding-top: 13.8px;"><i class="fa fa-star border rounded-circle rubberBand animated" style="background: #74c69d;padding: 11px;font-size: 18px;"></i></td>
+                                            <td data-bss-hover-animate="swing" style="padding-top: 13.8px;"><i class="fa fa-star border rounded-circle rubberBand animated" style="background: #74c69d;padding: 11px;font-size: 18px;"></i></td>
+                                            <td data-bss-hover-animate="swing" style="padding-top: 13.8px;"><i class="fa fa-star border rounded-circle rubberBand animated" style="background: #74c69d;padding: 11px;font-size: 18px;"></i>&nbsp;</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-8" style="background: rgba(0,0,0,0);margin: 0;margin-bottom: 20px;">
+                    <div id="sidecard" style="margin-top: 20px;border-radius: 9px;border-bottom-color: rgb(33, 37, 41);">
+                        <div id="sidecard-top" style="padding-bottom: 2.5px;border-bottom: 1px solid rgba(33,37,41,0.06) ;">
+                            <h3 style="padding-top: 17px;margin-bottom: 0;padding-bottom: 12px;">National Monthly Summary</h3>
+                            <p class="text-secondary" style="font-size: 18px;">Congratulations on a [green] month!&nbsp;Here is how [County] compares this month:<br></p>
+                        </div>
+                        <div class="sidecard-body" style="padding-top: 19px;padding-bottom: 8px;">
+                            <ul class="text-left" style="font-size: 17px;margin: 0px;margin-bottom: 0;">
+                                <li>[County] had the biggest reduction in energy consumption this month</li>
+                                <li>[County] had the lowest overall average consumption this month</li>
+                                <li>Average reduction in consumption per county was: (x)<br></li>
+                                <li>Average consumption per county was: (x)<br></li>
+                            </ul>
+                        </div>
+                        <div id="sidecard-bottom">
+                            <p data-bss-hover-animate="swing" style="margin: 0;padding-bottom: 14px;padding-top: 14px;"><i class="fa fa-star border rounded-circle rubberBand animated" style="background: #74c69d;padding: 11px;font-size: 18px;"></i><br></p>
+                            <p class="text-secondary" style="font-size: 16px;margin: 0;padding-top: 5px;">You have been awarded the Green County badge for [month] for being&nbsp;<br>part of the county with the highest reduction in energy consumption this month.<br><br></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="graph-sect">
+        <div class="container">
+            <div class="row" style="margin-bottom: 40px;margin-top: 40px;">
+                <div class="col-md-4 col-xl-5">
+                    <div id="compcard" style="background: #f1f7fc;width: 100%;padding: 0;border-radius: 9px;">
+                        <h3 class="text-center" style="margin: 0;padding-bottom: 15px;padding-top: 15px;border-bottom: 1px solid rgba(33,37,41,0.06) ;">[County]</h3>
+                        <div id="compcard-body" class="compcard-body" style="background: rgb(241,247,252);padding-top: 15px;padding-bottom: 15px;border-radius: 9px;">
+                            <ul class="text-left" style="font-size: 17px;padding-right: 9px;">
+                                <li>Average consumption: (x)</li>
+                                <li>Average consumption reduction: (x)%</li>
+                                <li>Highest consumption: (x)<br></li>
+                                <li>Lowest consumption: (x)<br></li>
+                                <li>County Rank: (#)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xl-2 my-auto">
+                    <div>
+                        <h1 class="text-center text-secondary"><em>VS</em></h1>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xl-5">
+                    <div id="compcard" style="background: #f1f7fc;width: 100%;padding: 0;border-radius: 9px;">
+                        <h3 class="text-center" style="margin: 0;padding-bottom: 15px;padding-top: 15px;border-bottom: 1px solid rgba(33,37,41,0.06) ;">Ireland</h3>
+                        <div id="compcard-body" class="compcard-body" style="background: rgb(241,247,252);padding-top: 15px;padding-bottom: 15px;border-radius: 9px;">
+                            <ul class="text-left" style="font-size: 17px;padding-right: 9px;">
+                                <li>Average consumption: (x)</li>
+                                <li>Average consumption reduction: (x)%</li>
+                                <li>Highest consumption: (x)<br></li>
+                                <li>Lowest consumption: (x)<br></li>
+                                <li>County Rank: (#)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="shadedsection-1" class="shadedsection">
+        <div class="container" style="padding: 40px;">
+            <div class="row">
+                <div class="col-md-12" style="text-align: center;">
+                    <div style="text-align: center;">
+                        <h3 class="text-left">National Leaderboard: Reduction in Energy Consumption</h3>
+                        <div><canvas data-bss-chart="{&quot;type&quot;:&quot;horizontalBar&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;Cork&quot;,&quot;Kerry&quot;,&quot;Dublin&quot;,&quot;Wexford&quot;,&quot;Limerick&quot;,&quot;Laois&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Revenue&quot;,&quot;backgroundColor&quot;:&quot;#4e73df&quot;,&quot;borderColor&quot;:&quot;#4e73df&quot;,&quot;data&quot;:[&quot;4500&quot;,&quot;5300&quot;,&quot;6250&quot;,&quot;7800&quot;,&quot;9800&quot;,&quot;15000&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:false,&quot;reverse&quot;:false,&quot;position&quot;:&quot;bottom&quot;},&quot;title&quot;:{}}}"></canvas></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container" style="padding: 40px;">
+            <div class="row">
+                <div class="col-md-12" style="text-align: center;">
+                    <div style="text-align: center;">
+                        <h3 class="text-left">National Leaderboard: Overall Average Consumption</h3>
+                        <div><canvas data-bss-chart="{&quot;type&quot;:&quot;horizontalBar&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;Cork&quot;,&quot;Kerry&quot;,&quot;Dublin&quot;,&quot;Waterford&quot;,&quot;Limerick&quot;,&quot;Laois&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Revenue&quot;,&quot;backgroundColor&quot;:&quot;#4e73df&quot;,&quot;borderColor&quot;:&quot;#4e73df&quot;,&quot;data&quot;:[&quot;4500&quot;,&quot;5300&quot;,&quot;6250&quot;,&quot;7800&quot;,&quot;9800&quot;,&quot;15000&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:false,&quot;reverse&quot;:false,&quot;position&quot;:&quot;bottom&quot;},&quot;title&quot;:{}}}"></canvas></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="shadedsection-1" class="shadedsection">
+        <div class="container" style="padding: 40px;">
+            <div class="row">
+                <div class="col-md-12" style="text-align: center;">
+                    <div style="text-align: center;">
+                        <h3 class="text-left">Average Consumption by Region //Choropleth Graph//</h3><iframe allowfullscreen="" frameborder="0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyC6Q8DjB6kS8c7CgKibf6aju6-HWcMoPJ8&amp;q=Ireland&amp;zoom=11" width="100%" height="400"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+</html>

@@ -10,7 +10,7 @@
         <h4>Electricity:</h4>
         <form method="POST">
             {% csrf_token %}
-            Enter your electricity usage for {{ thismonth_full }}: {{ form.electricity }}
+            Enter your electricity usage for {{ thismonth_full }}: {{ form.Apr_elec }}
 {#            {% if thismonth == "01" %}#}
 {#             {{ form.Jan }}#}
 {#            {% elif thismonth == "02" %}#}
@@ -39,7 +39,7 @@
 
 
                 <br>
-            Enter the total cost of your electricity bill this month: {{ form.cost }}
+            Enter the total cost of your electricity bill this month: {{ form.elec_cost}}
                 <br>
             For more accurate tracking of monetary savings, tell us your monthly standing charge: {{ form.standing_charge }}
                 <br>
@@ -51,10 +51,12 @@
             {% endif %}
             <br>
             <h4>If you use gas:</h4>
-            Enter your gas usage in kWh for the month: {{ form.gas }} (if you use gas)
+            Enter your gas usage in kWh for the month: {{ form.Apr_gas }} (if you use gas)<br>
+            Enter the total cost of your gas bill for this month: {{ form.gas_cost }}
             <br><br>
             <h4>If you use oil: </h4>
-            Enter how much oil in litres you get per refill: {{ form.oil }}<br>
+            Enter how much oil in litres you get per refill: {{ form.Apr_oil }}<br>
+            Enter the total cost of your last oil refill {{ form.oil_cost }}
             How many months does one oil refill usually last you?: {{ form.oil_frequency }}
 
 

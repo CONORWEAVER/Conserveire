@@ -6,7 +6,6 @@
 {% block body %}
 
 <!DOCTYPE html>
-<html lang="en">
     <section id="shadedsection" class="shadedsection" style="padding: 19px;">
         <div class="container">
             <div class="row">
@@ -42,7 +41,7 @@
                     <div id="sidecard" style="margin-top: 20px;border-radius: 9px;">
                         <div id="sidecard-top" style="padding-bottom: 2.5px;border-bottom: 1px solid rgba(33,37,41,0.06) ;">
                             <h3 style="padding-top: 17px;margin-bottom: 0;padding-bottom: 12px;">Your Profile</h3>
-                            <p class="text-secondary" style="font-size: 18px;">You reduced your energy consumption this month by (x)% !<br></p>
+                            <p class="text-secondary" style="font-size: 18px;">You reduced your energy consumption by {{ usagedata.reduction_percentage }}% this month !<br></p>
                         </div>
                         <div id="sidecard-body" class="sidecard-body" style="padding-top: 0;padding-bottom: 8px;">
                             <div id="sidecard-1" style="margin-top: 20px;border-radius: 9px;">
