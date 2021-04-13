@@ -25,5 +25,6 @@ urlpatterns = [
  #   url(r'^$', views.login_redirect, name='login_redirect'),
     url(r'^$', rv.home, name='home'),
     url(r'^admin/', admin.site.urls),
-    url(r'^webapp/', include('LearningProject.urls'))
+    url(r'^webapp/', include('LearningProject.urls')),
+    url(r"^badges/", include("pinax.badges.urls", namespace="pinax_badges")),
 ]

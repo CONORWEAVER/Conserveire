@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from . import views
 
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.urls import path
 from . import views
 
@@ -16,6 +16,7 @@ urlpatterns = [
     url(r'^register/$', views.register, name='register'),
     url(r'^feedback/$', views.view_feedback, name='webapp/feedback.html'),
     url(r'^monthly_use_form/$', views.monthly_use, name='webapp/monthly_use_form.html'),
-    url(r'^comparative_feedback/$', views.comparative_feedback, name='webapp/comparative_feedback.html')
+    url(r'^comparative_feedback/$', views.comparative_feedback, name='webapp/comparative_feedback.html'),
+    url(r"^badges/", include("pinax.badges.urls", namespace="pinax_badges")),
 
 ]

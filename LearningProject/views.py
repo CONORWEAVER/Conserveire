@@ -240,10 +240,9 @@ def comparative_feedback(request):
     usagedata = Usage.objects.filter(user=request.user)
     for c in usagedata:
         county = c.county
-    for d in usagedata:
-        reduction = d.reduction_percentage
-    for m in usagedata:
-        data2 = m.Apr
+        reduction = c.reduction_percentage
+        data2 = c.Apr
+
 
     data1 = Usage.objects.filter(county=county)
     for m in data1:
@@ -251,6 +250,7 @@ def comparative_feedback(request):
 
     if data2 != 0:
         comaprative_leaderboard = data1.order_by('-reduction_percentage')[:10]
+        ranking = Usage.objects.filter(user__usage__reduction_percentage__gte=reduction).count()
 
     countydata = Usage.objects.filter(user__usage__county=county).values('Apr', 'user_id')
     countyavg = countydata.aggregate(Avg('Apr'))
@@ -269,5 +269,5 @@ def comparative_feedback(request):
             'Apr': Apr, 'county': county, 'betterThan': betterThan,
             'thismonth_full': thismonth_full, 'data2': data2,
             'countyavgReduction': countyavgReduction, 'reduction': reduction, 'user': user,
-            'comparative_leaderboard': comaprative_leaderboard}
+            'comparative_leaderboard': comaprative_leaderboard, 'ranking': ranking}
     return render(request, 'webapp/comparative_feedback.html', args)
