@@ -13,7 +13,7 @@
                         <div id="profilecard" style="background: rgba(0,0,0,0);padding-top: 12px;border-width: 1px;border-bottom: 1px solid rgba(33,37,41,0.06) ;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-person-fill border rounded-circle" style="font-size: 105px;border-width: 0px;border-style: none;">
                                 <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
                             </svg>
-                            <p class="text-secondary" style="padding-top: 9px;">User Name</p>
+                            <p class="text-secondary" style="padding-top: 9px;">{{ user.first_name}} {{ user.last_name }}</p>
                         </div>
                         <div id="badge-showcase" style="padding-bottom: 20px;">
                             <h3>Badges</h3>
@@ -44,10 +44,10 @@
                         </div>
                         <div id="sidecard-body" class="sidecard-body" style="padding-top: 19px;padding-bottom: 8px;">
                             <ul class="text-left" style="font-size: 17px;margin: 0px;margin-bottom: 0;">
-                                <li>You were in the top (x)% of energy consumption reduction in [your county]</li>
-                                <li>You saved more energy this month than (x)% of people in [your county]</li>
-                                <li>Average reduction in [your county]: (x)% vs Your reduction: (x)%<br></li>
-                                <li>Average consumption in [your county]: (x) vs Your consumption: (x)<br></li>
+                                <li>You were in the top {{ percentile }}% of energy savers in {{ county }} this month!</li>
+                                <li>You saved more energy than {{ betterThan }}% of other users in {{ county }}</li>
+                                <li>Average reduction in {{ county }}: {{ countyavgReduction.reduction_percentage__avg|floatformat}}% vs Your reduction: {{ reduction }}%<br></li>
+                                <li>Average consumption in {{ county}}: {{ countyavg.Apr__avg|floatformat }} vs Your consumption: {{ data2 }}<br></li>
                             </ul>
                         </div>
                         <div id="sidecard-bottom">
@@ -209,10 +209,10 @@
 
     <br>
 
-    You used less energy than {{ betterThan }}% of other users in {% for c in county %}{{ c.county }}{% endfor %} this month
+    You saved more energy than {{ betterThan }}% of other users in {{ county }}
 
     <br>
-    April usage: {{ Apr }}
+    April usage: {{ data2 }}
 
     <br>
 
@@ -220,7 +220,11 @@
 
     <br>
 
-    You were in the top {{ percentile2 }}% of energy savers in {{ county }} this month!
+    You were in the top {{ percentile }}% of energy savers in {{ county }} this month!
+
+    <br>
+
+    The average reduction in {{ county }} is {{ countyavgReduction.reduction_percentage__avg}}
 
 {% endblock %}
 

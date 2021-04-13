@@ -47,4 +47,4 @@ class UsageForm(ModelForm):
         model = Usage
         fields = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
                   'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'county',
-                  'cost']
+                  'cost', 'standing_charge']

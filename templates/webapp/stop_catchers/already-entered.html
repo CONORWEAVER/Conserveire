@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{%  block head %}
+    <title>We already know</title>
+{% endblock %}
+
+{% block body %}
+    <section id="shadedsection" class="shadedsection" style="margin: 0;margin-top: 39px;">
+        <div id="sidecard" style="margin-top: 20px;border-radius: 9px;">
+            <div id="sidecard-top" style="padding-bottom: 2.5px;border-top-width: 1px;border-bottom: 1px solid rgba(33,37,41,0.06);">
+                <h3 class="text-center" style="padding-top: 17px;margin-bottom: 0;padding-bottom: 12px;">You already told us your energy this month!</h3><br>
+                <p class="text-secondary" style="font-size: 18px;">We know it's exciting to start saving the planet, but you only need to tell us<br>your energy usage once a month!</p>
+                <p class="text-secondary" style="font-size: 16px;margin: 0;padding-top: 5px;"><a href='/webapp/feedback'><strong>Click here to view your full personalized monthly feedback</strong></a><br><br></p>
+            </div>
+        </div>
+    </section>
+{% endblock %}

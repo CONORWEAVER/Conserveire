@@ -92,7 +92,7 @@
                 <div class="col-md-12">
                     <div>
                         <h3 class="text-left" style="padding-bottom: 17px;">Your Progress</h3>
-                        <div><canvas data-bss-chart="{&quot;type&quot;:&quot;line&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;January&quot;,&quot;February&quot;,&quot;March&quot;,&quot;April&quot;,&quot;May&quot;,&quot;June&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Revenue&quot;,&quot;backgroundColor&quot;:&quot;#4e73df&quot;,&quot;borderColor&quot;:&quot;#4e73df&quot;,&quot;data&quot;:[&quot;2500&quot;,&quot;5300&quot;,&quot;5000&quot;,&quot;7800&quot;,&quot;4000&quot;,&quot;3800&quot;],&quot;fill&quot;:false,&quot;borderWidth&quot;:&quot;&quot;}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:false,&quot;position&quot;:&quot;top&quot;,&quot;reverse&quot;:false},&quot;title&quot;:{&quot;display&quot;:false}}}"></canvas></div>
+                        <div><canvas data-bss-chart="{&quot;type&quot;:&quot;line&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;November&quot;,&quot;December&quot;,&quot;January&quot;,&quot;February&quot;,&quot;March&quot;,&quot;April&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Energy Usage&quot;,&quot;backgroundColor&quot;:&quot;#4e73df&quot;,&quot;borderColor&quot;:&quot;#4e73df&quot;,&quot;data&quot;:[&quot;3100&quot;,&quot;3400&quot;,&quot;{{ janData }}&quot;,&quot;{{ febData }}&quot;,&quot;{{ marData }}&quot;,&quot;{{ aprData }}&quot;],&quot;fill&quot;:false,&quot;borderWidth&quot;:&quot;&quot;}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:false,&quot;position&quot;:&quot;top&quot;,&quot;reverse&quot;:false},&quot;title&quot;:{&quot;display&quot;:false}}}"></canvas></div>
                     </div>
                 </div>
             </div>
@@ -106,8 +106,8 @@
                         <h3>How Do You Compare</h3>
                         <p class="text-secondary">Change needs to happen at an individual, community, county and national level.&nbsp;</p>
                         <ul class="list-unstyled" style="text-align: center;">
-                            <li style="padding-top: 0px;margin-bottom: 14px;background: #f1f7fc;text-align: center;"><a class="btn btn-primary text-center" role="button" style="border-radius: 20px;width: 52%;text-align: right;" href="URL here">See how you compare to similar people in [your county]</a></li>
-                            <li style="padding-top: 0px;margin-bottom: 14px;"><a class="btn btn-primary text-center" role="button" style="border-radius: 20px;width: 52%;" href="URL here">See how you compare to similar people in [your country]</a></li>
+                            <li style="padding-top: 0px;margin-bottom: 14px;background: #f1f7fc;text-align: center;"><a class="btn btn-primary text-center" role="button" style="border-radius: 20px;width: 52%;text-align: right;" href="URL here">See how you compare to similar people in {{ county }}</a></li>
+                            <li style="padding-top: 0px;margin-bottom: 14px;"><a class="btn btn-primary text-center" role="button" style="border-radius: 20px;width: 52%;" href="URL here">See how you compare to similar people in Ireland</a></li>
                             <li style="padding-top: 0px;margin-bottom: 14px;"><a class="btn btn-primary text-center" role="button" style="border-radius: 20px;width: 52%;" href="URL here">Explore how your community compares to the rest of Ireland</a></li>
                         </ul>
                     </div>
@@ -139,10 +139,12 @@
         <br>
     Your savings are: {{ savings }}
         <br>
+    Your per kWh rate is: {{ rate }}
 
-    {% for county in data1 %}
-            Your county is: {{ county.county }}
-{% endfor %}
+    <br>
+        your county is {{ county }}
+    <br>
+    Data for jan is {{ janData }}<br>Data for feb is: {{ febData }}
     </p>
 
 

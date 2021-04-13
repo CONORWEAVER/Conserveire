@@ -10,9 +10,9 @@
 
         <form method="POST">
             {% csrf_token %}
-
+            Enter your energy usage for {{ thismonth_full }}:
             {% if thismonth == "01" %}
-            {{ form.Jan }}
+             {{ form.Jan }}
             {% elif thismonth == "02" %}
             {{ form.Feb }}
             {% elif thismonth == "03" %}
@@ -39,9 +39,11 @@
 
 
                 <br>
-{#            {{ form.cost }}#}
+            Enter the total cost of your energy bill this month: {{ form.cost }}
                 <br>
+            For more accurate tracking of monetary savings, tell us your monthly standing charge: {{ form.standing_charge }}
                 <br>
+
 
             {% if enter_county %}
                 This is your first time entering your usage! <br>

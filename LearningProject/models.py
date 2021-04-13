@@ -49,6 +49,8 @@ class Usage(models.Model):
     Dec = models.IntegerField(default=0, blank=True)
     county = models.CharField(max_length=25, choices=COUNTY_CHOICES, blank=True)
     cost = models.IntegerField(default=0, blank=True)
+    standing_charge = models.IntegerField(default=0, blank=True)
     difference = models.IntegerField(default=0, blank=True)
+    rate = models.FloatField(default=0, blank=True)
     reduction_percentage = models.IntegerField(default=0, blank=True)
     submitted = models.DateField(auto_now_add='TRUE'),
