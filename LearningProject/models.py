@@ -3,7 +3,7 @@ from django.db.models import ForeignKey
 from django.forms import ModelForm, forms
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
-
+from pinax.badges.base import Badge, BadgeAwarded
 
 
 # Create your models here.
@@ -60,3 +60,13 @@ class Usage(models.Model):
     rate = models.FloatField(default=0, blank=True)
     reduction_percentage = models.IntegerField(default=0, blank=True)
     submitted = models.DateField(auto_now_add='TRUE'),
+    greenmonth = models.BooleanField(default=False, blank=True)
+
+    Mar_elec = models.IntegerField(default=0, blank=True)
+    Apr_elec = models.IntegerField(default=0, blank=True)
+
+    Mar_gas = models.IntegerField(default=0, blank=True)
+    Apr_gas = models.IntegerField(default=0, blank=True)
+
+    Mar_oil = models.IntegerField(default=0, blank=True)
+    Apr_oil = models.IntegerField(default=0, blank =True)

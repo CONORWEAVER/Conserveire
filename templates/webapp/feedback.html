@@ -147,7 +147,10 @@
     Data for jan is {{ janData }}<br>Data for feb is: {{ febData }}
     </p>
 
+{%  load pinax_badges_tags %}
 
-
-
+badges are: {% badges_for_user user as badges %}
+    {% for b in badges %}
+        {{ b.slug }}
+    {% endfor %}
 {% endblock %}

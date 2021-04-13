@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'LearningProject.apps.LearningProjectConfig',
-    "pinax.badges",
+    "pinax.badges"
+
 
 ]
 

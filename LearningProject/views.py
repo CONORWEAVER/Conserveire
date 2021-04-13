@@ -10,6 +10,10 @@ import re
 import json
 from django.contrib.auth.models import User
 
+###### BADGES ######
+from pinax.badges.base import Badge, BadgeAwarded, BadgeDetail
+from pinax.badges.registry import badges
+
 
 # Create your views here.
 
@@ -98,13 +102,31 @@ def view_feedback(request):
         savings = 0
         cost = cost - standingC
 
-        total_usage = data2 + gas
+
+        class GreenTestBadge(Badge):
+            slug = "testbadge"
+            levels = [
+                "Achieved"
+            ]
+            events = [
+                "testbadge_awarded"
+            ]
+            multiple = False
+
+            def award(self, **state):
+                user = state["user"]
+                if usagedata.greenmonth is True:
+                    return BadgeAwarded(level=1)
+
+        badges.register(GreenTestBadge)
 
         # evaluating comparison of data1 and data2, storing result in progress_check and setting greenmonth status
         if data2 < data3:
             if data2 != 0 and data3 != 0:
                 progress_check = 'Congratulations on a Green ' + thismonth_full + '!'
                 greenmonth = True
+                usagedata.greenmonth = True
+                badges.possibly_award_badge("testbadge_awarded", user=request.user)
                 # calculate difference between last month and previous month, calculate % change in consumption
                 difference = data3 - data2
                 usagedata.difference = difference  # update usagedata object
@@ -119,9 +141,9 @@ def view_feedback(request):
 
                 savings = int(rate * difference)
                 args = {'data1': data1,
-                        'lastmonth': lastmonth, 'thismonth': thismonth, 'county': county,
+                        'lastmonth': lastmonth, 'thismonth': thismonth, 'county': county, 'greenmonth': greenmonth,
                         'data2': data2, 'data3': data3,
-                        'progress_check': progress_check, 'greenmonth': greenmonth,
+                        'progress_check': progress_check,
                         'difference': difference, 'percentage_change': percentage_change,
                         'cost': cost, 'savings': savings, 'standingC': standingC, 'rate': rate,
                         'janData': janData, 'febData': febData, 'marData': marData, 'aprData': aprData}
@@ -137,7 +159,7 @@ def view_feedback(request):
                 usagedata.difference = difference  # update usagedata object
                 usagedata.reduction_percentage = 0
                 usagedata.rate = rate  # update usagedata object
-                usagedata.save()  # save updated object to database / Usafge model
+                usagedata.save()  # save updated object to database / Usage model
 
                 savings = int(rate * difference)
 
@@ -243,14 +265,16 @@ def comparative_feedback(request):
         reduction = c.reduction_percentage
         data2 = c.Apr
 
-
     data1 = Usage.objects.filter(county=county)
     for m in data1:
         Apr = m.Apr
 
     if data2 != 0:
-        comaprative_leaderboard = data1.order_by('-reduction_percentage')[:10]
+        comparative_leaderboard = data1.order_by('-reduction_percentage')[:10]
         ranking = Usage.objects.filter(user__usage__reduction_percentage__gte=reduction).count()
+    else:
+        comparative_leaderboard = data1.order_by('-reduction_percentage')[:10]
+        ranking = 'n/a'
 
     countydata = Usage.objects.filter(user__usage__county=county).values('Apr', 'user_id')
     countyavg = countydata.aggregate(Avg('Apr'))
@@ -265,9 +289,21 @@ def comparative_feedback(request):
 
     betterThan = 100 - percentile
 
+    test = Usage.objects.all()
+
     args = {'countydata': countydata, 'countyavg': countyavg, 'percentile': percentile,
             'Apr': Apr, 'county': county, 'betterThan': betterThan,
             'thismonth_full': thismonth_full, 'data2': data2,
             'countyavgReduction': countyavgReduction, 'reduction': reduction, 'user': user,
-            'comparative_leaderboard': comaprative_leaderboard, 'ranking': ranking}
+            'comparative_leaderboard': comparative_leaderboard, 'ranking': ranking, 'test': test}
     return render(request, 'webapp/comparative_feedback.html', args)
+
+
+def view_user_profile(request, username):
+    usageUserdata = User.objects.filter(username=username).only('id')
+    for n in usageUserdata:
+        usageUser = n.id
+    usagedata = Usage.objects.filter(user_id=usageUser)
+    user_profile = User.objects.get(username=username)
+    args = {'user_profile': user_profile, 'usageUser': usageUser, 'usagedata': usagedata}
+    return render(request, 'webapp/viewprofile.html', args)
