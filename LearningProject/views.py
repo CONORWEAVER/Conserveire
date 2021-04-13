@@ -66,13 +66,14 @@ def view_feedback(request):
     # retrieve cost value from Usage model for signed in user, store in cost variable
     for c in data1:
         cost = c.cost
-    for stan in data1:
-        standingC = stan.standing_charge
-    for county in data1:
-        county = county.county
+        standingC = c.standing_charge
+        county = c.county
         if county == '':
             county = 'your county'
-
+        gas = c.gas
+        electricity = c.electricity
+        oil = c.oil
+        oilfreq = c.oil_frequency
 
     # for loop iterates through data1 to check stored value for current month, assigns to 'data2'
     # data2 stores integer value of current month energy usage from Usage model
@@ -96,6 +97,8 @@ def view_feedback(request):
         percentage_change = 0
         savings = 0
         cost = cost - standingC
+
+        total_usage = data2 + gas
 
         # evaluating comparison of data1 and data2, storing result in progress_check and setting greenmonth status
         if data2 < data3:
@@ -121,7 +124,7 @@ def view_feedback(request):
                         'progress_check': progress_check, 'greenmonth': greenmonth,
                         'difference': difference, 'percentage_change': percentage_change,
                         'cost': cost, 'savings': savings, 'standingC': standingC, 'rate': rate,
-                        'janData': janData, 'febData': febData, 'marData':marData, 'aprData':aprData}
+                        'janData': janData, 'febData': febData, 'marData': marData, 'aprData': aprData}
                 return render(request, "webapp/feedback.html", args)
 
         elif data2 > data3:
@@ -144,7 +147,7 @@ def view_feedback(request):
                         'progress_check': progress_check, 'greenmonth': greenmonth,
                         'difference': difference, 'percentage_change': percentage_change,
                         'cost': cost, 'savings': savings, 'standingC': standingC, 'rate': rate,
-                        'janData': janData, 'febData': febData, 'marData':marData, 'aprData':aprData}
+                        'janData': janData, 'febData': febData, 'marData': marData, 'aprData': aprData}
                 return render(request, "webapp/feedback.html", args)
 
         if data2 == 0:
@@ -174,10 +177,9 @@ def monthly_use(request):
                 data2 = m.Feb
             elif thismonth == '04':
                 data2 = m.Apr
-                data3 = m.Mar
 
-        for county in data1:
-            county = county.county
+        for c in data1:
+            county = c.county
 
         if data2 == 0:
             if request.method == 'POST':
@@ -186,8 +188,12 @@ def monthly_use(request):
                 form = UsageForm(request.POST, instance=usagedata)
                 if form.is_valid():
                     usage = form.save(commit=False)
-                    usage.user = request.user
-                    usage.save()
+                    if thismonth == '04':
+                        if usage.oil != 0:
+                            usage.oil = (usage.oil * 10.35) / usage.oil_frequency
+                        usage.Apr = usagedata.gas + usagedata.electricity + usage.oil
+                        usage.user = request.user
+                        usage.save()
                 return redirect('/webapp/feedback')
             else:
                 form = UsageForm(instance=request.user)
@@ -221,7 +227,7 @@ def monthly_use(request):
             form = UsageForm(instance=request.user)
             # check current month, used later at template level to render only the form field of current month
             thismonth = datetime.now().strftime('%m')
-            args = {'form': form, 'thismonth': thismonth, 'thismonth_full':thismonth_full}
+            args = {'form': form, 'thismonth': thismonth, 'thismonth_full': thismonth_full}
             return render(request, 'webapp/monthly_use_form.html', args)
 
 
@@ -243,6 +249,9 @@ def comparative_feedback(request):
     for m in data1:
         Apr = m.Apr
 
+    if data2 != 0:
+        comaprative_leaderboard = data1.order_by('-reduction_percentage')[:10]
+
     countydata = Usage.objects.filter(user__usage__county=county).values('Apr', 'user_id')
     countyavg = countydata.aggregate(Avg('Apr'))
     countyavgReductiondata = Usage.objects.filter(user__usage__county=county).values('reduction_percentage')
@@ -259,5 +268,6 @@ def comparative_feedback(request):
     args = {'countydata': countydata, 'countyavg': countyavg, 'percentile': percentile,
             'Apr': Apr, 'county': county, 'betterThan': betterThan,
             'thismonth_full': thismonth_full, 'data2': data2,
-            'countyavgReduction': countyavgReduction, 'reduction': reduction, 'user': user}
+            'countyavgReduction': countyavgReduction, 'reduction': reduction, 'user': user,
+            'comparative_leaderboard': comaprative_leaderboard}
     return render(request, 'webapp/comparative_feedback.html', args)

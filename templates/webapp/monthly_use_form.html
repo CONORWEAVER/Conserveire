@@ -7,39 +7,39 @@
 
 {% block body %}
     <div class="container">
-
+        <h4>Electricity:</h4>
         <form method="POST">
             {% csrf_token %}
-            Enter your energy usage for {{ thismonth_full }}:
-            {% if thismonth == "01" %}
-             {{ form.Jan }}
-            {% elif thismonth == "02" %}
-            {{ form.Feb }}
-            {% elif thismonth == "03" %}
-            {{ form.Mar }}
-            {% elif thismonth == "04" %}
-            {{ form.Apr }}
-            {% elif thismonth == "05" %}
-            {{ form.May }}
-            {% elif thismonth == "06" %}
-            {{ form.Jun }}
-            {% elif thismonth == "07" %}
-            {{ form.Jul }}
-            {% elif thismonth == "08" %}
-            {{ form.Aug }}
-            {% elif thismonth == "09" %}
-            {{ form.Sep }}
-            {% elif thismonth == "10" %}
-            {{ form.Oct }}
-            {% elif thismonth == "11" %}
-            {{ form.Nov }}
-            {% elif thismonth == "12" %}
-            {{ form.Dec }}
-            {% endif %}
+            Enter your electricity usage for {{ thismonth_full }}: {{ form.electricity }}
+{#            {% if thismonth == "01" %}#}
+{#             {{ form.Jan }}#}
+{#            {% elif thismonth == "02" %}#}
+{#            {{ form.Feb }}#}
+{#            {% elif thismonth == "03" %}#}
+{#            {{ form.Mar }}#}
+{#            {% elif thismonth == "04" %}#}
+{#            {{ form.Apr }}#}
+{#            {% elif thismonth == "05" %}#}
+{#            {{ form.May }}#}
+{#            {% elif thismonth == "06" %}#}
+{#            {{ form.Jun }}#}
+{#            {% elif thismonth == "07" %}#}
+{#            {{ form.Jul }}#}
+{#            {% elif thismonth == "08" %}#}
+{#            {{ form.Aug }}#}
+{#            {% elif thismonth == "09" %}#}
+{#            {{ form.Sep }}#}
+{#            {% elif thismonth == "10" %}#}
+{#            {{ form.Oct }}#}
+{#            {% elif thismonth == "11" %}#}
+{#            {{ form.Nov }}#}
+{#            {% elif thismonth == "12" %}#}
+{#            {{ form.Dec }}#}
+{#            {% endif %}#}
 
 
                 <br>
-            Enter the total cost of your energy bill this month: {{ form.cost }}
+            Enter the total cost of your electricity bill this month: {{ form.cost }}
                 <br>
             For more accurate tracking of monetary savings, tell us your monthly standing charge: {{ form.standing_charge }}
                 <br>
@@ -49,6 +49,14 @@
                 This is your first time entering your usage! <br>
                 For more meaningful comparisons and tailored feedback, please tell us what county you are from: {{ form.county }}
             {% endif %}
+            <br>
+            <h4>If you use gas:</h4>
+            Enter your gas usage in kWh for the month: {{ form.gas }} (if you use gas)
+            <br><br>
+            <h4>If you use oil: </h4>
+            Enter how much oil in litres you get per refill: {{ form.oil }}<br>
+            How many months does one oil refill usually last you?: {{ form.oil_frequency }}
+
 
 
             <br>
