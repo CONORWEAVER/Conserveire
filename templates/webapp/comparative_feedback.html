@@ -52,7 +52,7 @@
                         </div>
                         <div id="sidecard-bottom">
                             <p data-bss-hover-animate="swing" style="margin: 0;padding-bottom: 14px;padding-top: 14px;"><i class="fa fa-star border rounded-circle rubberBand animated" style="background: #74c69d;padding: 11px;font-size: 18px;"></i><br></p>
-                            <p class="text-secondary" style="font-size: 16px;margin: 0;padding-top: 5px;">You have been awarded the Top [x] Badge for [month]<br>Your actions have a real impact on the health of our planet. <br><br></p>
+                            <p class="text-secondary" style="font-size: 16px;margin: 0;padding-top: 5px;">You have been awarded the Top {{ roundrank }} Badge for {{ thismonth_full }}<br>Your actions have a real impact on the health of our planet. <br><br></p>
                         </div>
                     </div>
                 </div>
@@ -126,42 +126,44 @@
         </div>
     </section>
 
-    {% for c in countydata %}
-    The data is: {{ c.Apr }} , belonging to user with ID: {{ c.user_id}}<br>
-    {% endfor %}
-    <br>
-    The average usage in {{ county }} this month is: {{ countyavg.Apr__avg }}
 
-    <br>
 
-    You saved more energy than {{ betterThan }}% of other users in {{ county }}
-
-    <br>
-    April usage: {{ data2 }}
-
-    <br>
-
-    Users county is : {{ county }}
-
-    <br>
-
-    You were in the top {{ percentile }}% of energy savers in {{ county }} this month!
-
-    <br>
-
-    The average reduction in {{ county }} is {{ countyavgReduction.reduction_percentage__avg}}
-
-    <br>
-
-    The leaderborad for {{ county }} is:<br>
-    {% for c in comparative_leaderboard %}
-    {{ forloop.counter }} Name is :{{ c.user.username }} reduction is {{ c.reduction_percentage }}%<br>
-    {% endfor %}
-
-    ranking is {{ ranking }}
-
-    <br>
-    {{ test }}
+{#    {% for c in countydata %}#}
+{#    The data is: {{ c.Apr }} , belonging to user with ID: {{ c.user_id}}<br>#}
+{#    {% endfor %}#}
+{#    <br>#}
+{#    The average usage in {{ county }} this month is: {{ countyavg.Apr__avg }}#}
+{##}
+{#    <br>#}
+{##}
+{#    You saved more energy than {{ betterThan }}% of other users in {{ county }}#}
+{##}
+{#    <br>#}
+{#    April usage: {{ data2 }}#}
+{##}
+{#    <br>#}
+{##}
+{#    Users county is : {{ county }}#}
+{##}
+{#    <br>#}
+{##}
+{#    You were in the top {{ percentile }}% of energy savers in {{ county }} this month!#}
+{##}
+{#    <br>#}
+{##}
+{#    The average reduction in {{ county }} is {{ countyavgReduction.reduction_percentage__avg}}#}
+{##}
+{#    <br>#}
+{##}
+{#    The leaderborad for {{ county }} is:<br>#}
+{#    {% for c in comparative_leaderboard %}#}
+{#    {{ forloop.counter }} Name is :{{ c.user.username }} reduction is {{ c.reduction_percentage }}%<br>#}
+{#    {% endfor %}#}
+{##}
+{#    ranking is {{ ranking }}#}
+{##}
+{#    <br>#}
+{#    {{ test }}#}
 {% endblock %}
 
 

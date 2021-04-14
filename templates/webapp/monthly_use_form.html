@@ -6,11 +6,11 @@
 
 
 {% block body %}
-    <div class="container">
-        <h4>Electricity:</h4>
-        <form method="POST">
-            {% csrf_token %}
-            Enter your electricity usage for {{ thismonth_full }}: {{ form.Apr_elec }}
+{#    <div class="container">#}
+{#        <h4>Electricity:</h4>#}
+{#        <form method="POST">#}
+{#            {% csrf_token %}#}
+{#            Enter your electricity usage for {{ thismonth_full }}: {{ form.Apr_elec }}#}
 {#            {% if thismonth == "01" %}#}
 {#             {{ form.Jan }}#}
 {#            {% elif thismonth == "02" %}#}
@@ -36,38 +36,65 @@
 {#            {% elif thismonth == "12" %}#}
 {#            {{ form.Dec }}#}
 {#            {% endif %}#}
+{##}
+{##}
+{#                <br>#}
+{#            Enter the total cost of your electricity bill this month: {{ form.elec_cost}}#}
+{#                <br>#}
+{#            For more accurate tracking of monetary savings, tell us your monthly standing charge: {{ form.standing_charge }}#}
+{#                <br>#}
+{##}
+{##}
+{#            {% if enter_county %}#}
+{#                This is your first time entering your usage! <br>#}
+{#                For more meaningful comparisons and tailored feedback, please tell us what county you are from: {{ form.county }}#}
+{#            {% endif %}#}
+{#            <br>#}
+{#            <h4>If you use gas:</h4>#}
+{#            Enter your gas usage in kWh for the month: {{ form.Apr_gas }} (if you use gas)<br>#}
+{#            Enter the total cost of your gas bill for this month: {{ form.gas_cost }}#}
+{#            <br><br>#}
+{#            <h4>If you use oil: </h4>#}
+{#            Enter how much oil in litres you get per refill: {{ form.Apr_oil }}<br>#}
+{#            Enter the total cost of your last oil refill {{ form.oil_cost }}#}
+{#            How many months does one oil refill usually last you?: {{ form.oil_frequency }}#}
+{##}
+{##}
+{##}
+{#            <br>#}
+{#            <button type="submit" class="btn-success">Submit</button>#}
+{#        </form>#}
+{##}
+{#    </div>#}
 
-
-                <br>
-            Enter the total cost of your electricity bill this month: {{ form.elec_cost}}
-                <br>
-            For more accurate tracking of monetary savings, tell us your monthly standing charge: {{ form.standing_charge }}
-                <br>
-
-
-            {% if enter_county %}
-                This is your first time entering your usage! <br>
-                For more meaningful comparisons and tailored feedback, please tell us what county you are from: {{ form.county }}
-            {% endif %}
-            <br>
-            <h4>If you use gas:</h4>
-            Enter your gas usage in kWh for the month: {{ form.Apr_gas }} (if you use gas)<br>
-            Enter the total cost of your gas bill for this month: {{ form.gas_cost }}
-            <br><br>
-            <h4>If you use oil: </h4>
-            Enter how much oil in litres you get per refill: {{ form.Apr_oil }}<br>
-            Enter the total cost of your last oil refill {{ form.oil_cost }}
-            How many months does one oil refill usually last you?: {{ form.oil_frequency }}
-
-
-
-            <br>
-            <button type="submit" class="btn-success">Submit</button>
-        </form>
-
-    </div>
-
-    {% if thismonth == "03" %}
-    Its March my dudes
-    {% endif %}
+{#{% endblock %}#}
+    <form method="post">
+    {% csrf_token %}
+    <section id="shadedsection" class="shadedsection" style="padding-left: 34px;">
+        <h5 style="color: rgb(33, 37, 41);padding: 20px;padding-bottom: 9px;">Electricity Usage:</h5>
+        <p style="padding-left: 20px;">Enter your electricity usage in kWh for {{ thismonth_full}}&nbsp;{{ form.Apr_elec }}<br></p>
+        <p style="padding-left: 20px;">Enter the total cost of your electricity bill this month: &nbsp; {{ form.elec_cost}}</p>
+        <p style="padding-left: 20px;padding-bottom: 20px;">For more accurate tracking of monetary savings, you can tell us your monthly standing charge (optional):{{ form.standing_charge }}<br></p>
+    </section>
+    <section id="shadedsection" class="shadedsection" style="padding-left: 34px;background: rgba(241,247,252,0);">
+        <h5 style="color: rgb(33, 37, 41);padding: 20px;padding-bottom: 9px;">Gas Usage:</h5>
+        <p style="padding-left: 20px;">Enter your gas usage in kWh for April:&nbsp;{{ form.Apr_gas }}<br></p>
+        <p style="padding-left: 20px;">Enter the total cost of your gas bill for this month: &nbsp;{{ form.gas_cost }}</p>
+    </section>
+    <section style="margin-top: 55px;margin-bottom: 60px;">
+        <section id="shadedsection-1" class="shadedsection" style="padding-left: 34px;">
+            <h5 style="color: rgb(33, 37, 41);padding: 20px;padding-bottom: 9px;">Oil Usage</h5>
+            <p style="padding-left: 20px;">Enter how much oil in liters you purchased in your last refill:&nbsp;{{ form.Apr_oil }}<br></p>
+            <p style="padding-left: 20px;">How many months does one refill of this size normally last you?:&nbsp;{{ form.oil_frequency }}</p>
+            <p style="padding-left: 20px;padding-bottom: 20px;">Enter the total cost of your last oil refill:&nbsp;{{ form.oil_cost }}<br></p>
+        </section>
+            </section>
+    <section id="shadedsection-2" class="shadedsection" style="padding-left: 34px;background: rgba(241,247,252,0);">
+        {% if enter_county %}
+        <p><strong>***Please enter your County before proceeding:&nbsp;{{ form.county }}</strong>
+        {% endif %}
+    </p><button class="btn btn-primary" type="submit" style="width: 124.5px;margin-top: 26px;">Submit</button>
+    </section>
+    </section>
+    </form>
 {% endblock %}

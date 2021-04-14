@@ -56,7 +56,7 @@
 
                         <div id="sidecard-bottom">
                             <p data-bss-hover-animate="swing" style="margin: 0;padding-bottom: 14px;padding-top: 14px;"><i class="fa fa-star border rounded-circle rubberBand animated" style="background: #74c69d;padding: 11px;font-size: 18px;"></i><br></p>
-                            <p class="text-secondary" style="font-size: 16px;margin: 0;padding-top: 5px;">You have been awarded the Green [Month] Badge.<br>Your actions have a real impact on the health of our planet. <br><br></p>
+                            <p class="text-secondary" style="font-size: 16px;margin: 0;padding-top: 5px;">You have been awarded the Green {{ thismonth_full }} Badge.<br>Your actions have a real impact on the health of our planet. <br><br></p>
                         </div>
 
 {#conditionally render if user failed to reduce consumption#}
@@ -123,36 +123,36 @@
 {#            Your energy usage for last month is: {{ usage.Jul }}#}
 {#{% endfor %}#}
 
-    <p>
-    Current month is: {{ thismonth }}
-        <br>
-    Last month is: {{ lastmonth }}
-    </p>
-
-
-    <p>
-    Your energy usage for the month is: {{ data2 }}
-        <br>
-    Your energy usage for last month is: {{ data3 }}
-        <br>
-    Your cost is : {{ cost }}
-        <br>
-    Your savings are: {{ savings }}
-        <br>
-    Your per kWh rate is: {{ rate }}
-
-    <br>
-        your county is {{ county }}
-    <br>
-    Data for jan is {{ janData }}<br>Data for feb is: {{ febData }}
-    </p>
-    <br>
-    oil: {{ oil_savings }}<br>gas: {{ gas_savings }}<br> elec: {{ elec_savings }}
-
-{%  load pinax_badges_tags %}
-
-badges are: {% badges_for_user user as badges %}
-    {% for b in badges %}
-        {{ b.slug }}
-    {% endfor %}
+{#    <p>#}
+{#    Current month is: {{ thismonth }}#}
+{#        <br>#}
+{#    Last month is: {{ lastmonth }}#}
+{#    </p>#}
+{##}
+{##}
+{#    <p>#}
+{#    Your energy usage for the month is: {{ data2 }}#}
+{#        <br>#}
+{#    Your energy usage for last month is: {{ data3 }}#}
+{#        <br>#}
+{#    Your cost is : {{ cost }}#}
+{#        <br>#}
+{#    Your savings are: {{ savings }}#}
+{#        <br>#}
+{#    Your per kWh rate is: {{ rate }}#}
+{##}
+{#    <br>#}
+{#        your county is {{ county }}#}
+{#    <br>#}
+{#    Data for jan is {{ janData }}<br>Data for feb is: {{ febData }}#}
+{#    </p>#}
+{#    <br>#}
+{#    oil: {{ oil_savings }}<br>gas: {{ gas_savings }}<br> elec: {{ elec_savings }}#}
+{##}
+{#{%  load pinax_badges_tags %}#}
+{##}
+{#badges are: {% badges_for_user user as badges %}#}
+{#    {% for b in badges %}#}
+{#        {{ b.slug }}#}
+{#    {% endfor %}#}
 {% endblock %}

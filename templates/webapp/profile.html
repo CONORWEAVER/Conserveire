@@ -47,7 +47,7 @@
                             <div id="sidecard-1" style="margin-top: 20px;border-radius: 9px;">
                                 <div id="sidecard-top-1" style="padding-bottom: 2.5px;border-bottom: 1px solid rgba(33,37,41,0.06) ;">
                                     <h4 style="padding-top: 0;margin-bottom: 0;padding-bottom: 12px;">Energy Pledge</h4>
-                                    <p class="text-secondary" style="font-size: 18px;">Check out Conor's latest energy pledge:<br></p>
+                                    <p class="text-secondary" style="font-size: 18px;">Check out {{ user.first_name }}'s latest energy pledge:<br></p>
                                 </div>
                                 <div id="sidecard-body-1" class="sidecard-body" style="padding-top: 19px;padding-bottom: 8px;">
                                     <p style="font-size: 18px;background: rgba(64,145,108,0.38);border-radius: 33px;margin-right: 35px;margin-left: 35px;padding-right: 5px;padding-left: 5px;">You pledged to reduce your energy consumption by 5% before June</p>
@@ -74,17 +74,17 @@
     </section>
 
 
-        <p>
-        First name: {{ user.first_name }}
-        <br>
-        Last name: {{ user.last_name }}
-        <br>
-        Email address: {{ user.email }}
-        <br>
-        Last logged in: {{ user.last_login }}
-        <br>
-        County: {{ user.userprofile.county }}
-
+{#        <p>#}
+{#        First name: {{ user.first_name }}#}
+{#        <br>#}
+{#        Last name: {{ user.last_name }}#}
+{#        <br>#}
+{#        Email address: {{ user.email }}#}
+{#        <br>#}
+{#        Last logged in: {{ user.last_login }}#}
+{#        <br>#}
+{#        County: {{ user.userprofile.county }}#}
+{##}
 
     </p>
 {% endblock %}

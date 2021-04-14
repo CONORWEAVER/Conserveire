@@ -174,7 +174,8 @@ def view_feedback(request):
 
                 # savings = int(rate * difference)
                 args = {'data1': data1,
-                        'lastmonth': lastmonth, 'thismonth': thismonth, 'county': county, 'greenmonth': greenmonth,
+                        'lastmonth': lastmonth, 'thismonth': thismonth, 'thismonth_full':thismonth_full,
+                        'county': county, 'greenmonth': greenmonth,
                         'data2': data2, 'data3': data3,
                         'progress_check': progress_check,
                         'difference': difference, 'percentage_change': percentage_change,
@@ -227,7 +228,7 @@ def view_feedback(request):
                 return render(request, "webapp/feedback.html", args)
 
         if data2 == 0:
-            return HttpResponse('<h1>Please enter your energy usage for this month before viewing feedback')
+            return render(request, 'webapp/stop_catchers/no-usage.html')
         if data3 == 0 and data2 != 0:
             return render(request, 'webapp/stop_catchers/first-month.html')
         if data3 == 0:
@@ -342,16 +343,22 @@ def comparative_feedback(request):
     else:
         return 0.0
 
+
+    roundrank = 5 * round(percentile/5)
+
     betterThan = 100 - percentile
 
     test = Usage.objects.all()
 
-    args = {'countydata': countydata, 'countyavg': countyavg, 'percentile': percentile,
+    args = {'countydata': countydata, 'countyavg': countyavg, 'percentile': percentile,'roundrank':roundrank,
             'Apr': Apr, 'county': county, 'betterThan': betterThan,
             'thismonth_full': thismonth_full, 'data2': data2,
             'countyavgReduction': countyavgReduction, 'reduction': reduction, 'user': user,
             'comparative_leaderboard': comparative_leaderboard, 'ranking': ranking, 'test': test}
     return render(request, 'webapp/comparative_feedback.html', args)
+
+    if data2 == 0:
+        return render(request, 'webapp/stop_catchers/no-usage.html')
 
 @login_required
 def view_user_profile(request, username):
