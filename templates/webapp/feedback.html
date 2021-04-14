@@ -14,7 +14,7 @@
                         <div id="profilecard" style="background: rgba(0,0,0,0);padding-top: 12px;border-width: 1px;border-bottom: 1px solid rgba(33,37,41,0.06) ;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-person-fill border rounded-circle" style="font-size: 105px;border-width: 0px;border-style: none;">
                                 <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
                             </svg>
-                            <p class="text-secondary" style="padding-top: 9px;">User Name</p>
+                            <p class="text-secondary" style="padding-top: 9px;">{{ user.first_name }} {{ user.last_name }}</p>
                         </div>
                         <div id="badge-showcase" style="padding-bottom: 20px;">
                             <h3>Badges</h3>
@@ -106,9 +106,9 @@
                         <h3>How Do You Compare</h3>
                         <p class="text-secondary">Change needs to happen at an individual, community, county and national level.&nbsp;</p>
                         <ul class="list-unstyled" style="text-align: center;">
-                            <li style="padding-top: 0px;margin-bottom: 14px;background: #f1f7fc;text-align: center;"><a class="btn btn-primary text-center" role="button" style="border-radius: 20px;width: 52%;text-align: right;" href="URL here">See how you compare to similar people in {{ county }}</a></li>
-                            <li style="padding-top: 0px;margin-bottom: 14px;"><a class="btn btn-primary text-center" role="button" style="border-radius: 20px;width: 52%;" href="URL here">See how you compare to similar people in Ireland</a></li>
-                            <li style="padding-top: 0px;margin-bottom: 14px;"><a class="btn btn-primary text-center" role="button" style="border-radius: 20px;width: 52%;" href="URL here">Explore how your community compares to the rest of Ireland</a></li>
+                            <li style="padding-top: 0px;margin-bottom: 14px;background: #f1f7fc;text-align: center;"><a class="btn btn-primary text-center" role="button" style="border-radius: 20px;width: 52%;text-align: right;" href='/webapp/comparative_feedback/'>See how you compare to similar people in {{ county }}</a></li>
+                            <li style="padding-top: 0px;margin-bottom: 14px;"><a class="btn btn-primary text-center" role="button" style="border-radius: 20px;width: 52%;" href='/webapp/group_feedback/'>See how you compare to similar people in Ireland</a></li>
+                            <li style="padding-top: 0px;margin-bottom: 14px;"><a class="btn btn-primary text-center" role="button" style="border-radius: 20px;width: 52%;" href='/webapp/group_feedback/'>Explore how your community compares to the rest of Ireland</a></li>
                         </ul>
                     </div>
                 </div>
