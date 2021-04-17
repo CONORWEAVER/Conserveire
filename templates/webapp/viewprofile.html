@@ -25,7 +25,7 @@
                         <div id="profilecard" style="background: rgba(0,0,0,0);padding-top: 12px;border-width: 1px;border-bottom: 1px solid rgba(33,37,41,0.06) ;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-person-fill border rounded-circle" style="font-size: 105px;border-width: 0px;border-style: none;">
                                 <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
                             </svg>
-                            <p class="text-secondary" style="padding-top: 9px;">User Name</p>
+                            <p class="text-secondary" style="padding-top: 9px;">{{ user_profile.username}}</p>
                         </div>
                         <div id="badge-showcase" style="padding-bottom: 20px;">
                             <h3>Badges</h3>
@@ -51,20 +51,22 @@
                 <div class="col-md-6 col-lg-8" style="background: rgba(0,0,0,0);margin: 0;margin-bottom: 20px;">
                     <div id="sidecard" style="margin-top: 20px;border-radius: 9px;">
                         <div id="sidecard-top" style="padding-bottom: 2.5px;border-bottom: 1px solid rgba(33,37,41,0.06) ;">
-                            <h3 style="padding-top: 17px;margin-bottom: 0;padding-bottom: 12px;">[Users] Profile</h3>
-                            <p class="text-secondary" style="font-size: 18px;">[User] reduced their energy consumption this month by (x)% !<br></p>
+                            <h3 style="padding-top: 17px;margin-bottom: 0;padding-bottom: 12px;">{{user_profile.username}}'s Profile</h3>
+                            <p class="text-secondary" style="font-size: 18px;">{{user_profile.username}}reduced their energy consumption this month by (x)% !<br></p>
                         </div>
                         <div id="sidecard-body" class="sidecard-body" style="padding-top: 0;padding-bottom: 8px;">
                             <div id="sidecard-1" style="margin-top: 20px;border-radius: 9px;">
                                 <div id="sidecard-top-1" style="padding-bottom: 2.5px;border-bottom: 1px solid rgba(33,37,41,0.06) ;">
                                     <h4 style="padding-top: 0;margin-bottom: 0;padding-bottom: 12px;">Energy Pledge</h4>
-                                    <p class="text-secondary" style="font-size: 18px;">Check out Conor's latest energy pledge:<br></p>
+                                    <p class="text-secondary" style="font-size: 18px;">Check out {{ user_profile.username}}'s latest energy pledge:<br></p>
                                 </div>
                                 <div id="sidecard-body-1" class="sidecard-body" style="padding-top: 19px;padding-bottom: 8px;">
-                                    <p style="font-size: 18px;background: rgba(64,145,108,0.38);border-radius: 33px;margin-right: 35px;margin-left: 35px;padding-right: 5px;padding-left: 5px;">[User] has pledged to reduce his energy consumption by 5% before June</p>
+                                    <p style="font-size: 18px;background: rgba(64,145,108,0.38);border-radius: 33px;margin-right: 35px;margin-left: 35px;padding-right: 5px;padding-left: 5px;">
+                                        {{user_profile.username}} has pledged to reduce his energy consumption by 5% before June</p>
                                 </div>
                                 <div id="sidecard-bottom-1">
-                                    <p class="text-secondary" style="font-size: 16px;margin: 0;padding-top: 5px;">[User] has 43 days left to succeed in his pledge. Give him your support!<br><strong>Click here&nbsp;to make your own energy pledge</strong><br><br></p>
+                                    <p class="text-secondary" style="font-size: 16px;margin: 0;padding-top: 5px;">
+                                        {{user_profile.username}} has 43 days left to succeed in his pledge. Give him your support!<br><strong>Click here&nbsp;to make your own energy pledge</strong><br><br></p>
                                 </div>
                             </div>
                         </div>

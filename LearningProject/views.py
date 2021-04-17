@@ -36,9 +36,14 @@ def register(request):
 
 @login_required
 def view_profile(request):
-    usagedata = Usage.objects.get(user=request.user)
-    args = {'user': request.user, 'usagedata':usagedata}
-    return render(request, "webapp/profile.html", args)
+    try:
+        usagedata = Usage.objects.get(user=request.user)
+        args = {'user': request.user, 'usagedata':usagedata}
+        return render(request, "webapp/profile.html", args)
+    except:
+        args = {'user': request.user}
+        return render(request, "webapp/profile.html", args)
+
 
 
 @login_required
@@ -328,6 +333,13 @@ def comparative_feedback(request):
     if data2 != 0:
         comparative_leaderboard = data1.order_by('-reduction_percentage')[:10]
         ranking = Usage.objects.filter(user__usage__reduction_percentage__gte=reduction).count()
+
+        # # if rankingdata ==1:
+        # #     ranking = 1
+        # # else:
+        # #     ranking = rankingdata -1
+        #
+        # ranking = rankingdata -1
     else:
         comparative_leaderboard = data1.order_by('-reduction_percentage')[:10]
         ranking = 'n/a'
