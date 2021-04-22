@@ -7,8 +7,7 @@ from datetime import datetime, timedelta
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Avg
 from django.contrib.auth.models import User
-from friendship.models import Friend, Follow, Block
-
+from friendship.models import Friend, Follow, Block, FriendshipRequest
 
 ###### BADGES ######
 from pinax.badges.base import Badge, BadgeAwarded, BadgeDetail
@@ -393,16 +392,34 @@ def view_user_profile(request, username):
     # if username in Follow.objects.following(request.user):
     #     already_following = True
 
-    args = {'user_profile': user_profile, 'usageUser': usageUser, 'usagedata': usagedata, 'already_following': already_following}
+    args = {'user_profile': user_profile, 'usageUser': usageUser, 'usagedata': usagedata,
+            'already_following': already_following}
     return render(request, 'webapp/viewprofile.html', args)
 
 
 @login_required
-def follow_request(request, username):
+def friend_request(request, username):
     other_user = User.objects.get(username=username)
-    Follow.objects.add_follower(
+    Friend.objects.add_friend(
         request.user,  # The sender
         other_user,  # The recipient
     )
+    return HttpResponse('You are now friends with that person!')
 
-    return redirect('/webapp/viewprofile.html')
+
+def friend_requests(request):
+    return render(request, 'webapp/friend_requests.html')
+
+
+def accept_friend(request):
+    friend_request = FriendshipRequest.objects.get(to_user=request.user)
+    friend_request.accept()
+
+    return HttpResponse('You are now friends.')
+
+def reject_friend(request):
+    friend_request = FriendshipRequest.objects.get(to_user=request.user)
+    friend_request.reject()
+
+    return HttpResponse('You declined the friend invitation.')
+

@@ -20,8 +20,10 @@ urlpatterns = [
     url(r"^badges/", include("pinax.badges.urls", namespace="pinax_badges")),
     url(r'^group_feedback/$', views.group_feedback, name='webapp/group_feedback.html'),
     url(r'^profile_list/$', views.profile_list, name='webapp/profile_list.html'),
+    url(r'^friend_requests/$', views.friend_requests, name='webapp/friend_requests.html'),
+    url(r'^friend_requests/accept/$', views.accept_friend, name='webapp/accept_friend'),
 
     url(r'^profile/(?P<username>[\w\-]+)/$', views.view_user_profile, name='webapp/profile'),
-    url(r'^profile/follow/(?P<username>[\w\-]+)/$', views.follow_request, name='webapp/profile/follow')
+    url(r'^profile/add_friend/(?P<username>[\w\-]+)/$', views.friend_request, name='webapp/profile/add_friend')
 
 ]
