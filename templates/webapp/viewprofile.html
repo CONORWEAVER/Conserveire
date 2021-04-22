@@ -3,7 +3,6 @@
 {#{% block body %}#}
 {#<h1>{{ user_profile }}</h1>#}
 {#    {{ usageUser}}#}
-{#    {{ usagedata }}#}
 {#{% endblock %}#}
 
 
@@ -15,8 +14,9 @@
 
 {% block body %}
 
-<!DOCTYPE html>
-<html lang="en">
+    {% for d in usagedata %}
+
+
     <section id="shadedsection" class="shadedsection" style="padding: 19px;">
         <div class="container">
             <div class="row">
@@ -52,7 +52,7 @@
                     <div id="sidecard" style="margin-top: 20px;border-radius: 9px;">
                         <div id="sidecard-top" style="padding-bottom: 2.5px;border-bottom: 1px solid rgba(33,37,41,0.06) ;">
                             <h3 style="padding-top: 17px;margin-bottom: 0;padding-bottom: 12px;">{{user_profile.username}}'s Profile</h3>
-                            <p class="text-secondary" style="font-size: 18px;">{{user_profile.username}}reduced their energy consumption this month by (x)% !<br></p>
+                            <p class="text-secondary" style="font-size: 18px;">{{user_profile.username}}reduced their energy consumption this month by {{ d.reduction_percentage }}% !<br></p>
                         </div>
                         <div id="sidecard-body" class="sidecard-body" style="padding-top: 0;padding-bottom: 8px;">
                             <div id="sidecard-1" style="margin-top: 20px;border-radius: 9px;">
@@ -100,5 +100,15 @@
             </div>
         </div>
     </section>
+
+
+        <ul class="list-unstyled" style="text-align: center;">
+            <li style="padding-top: 0px;margin-bottom: 14px;background: #f1f7fc;text-align: center;"><a class="btn btn-primary text-center" role="button" style="border-radius: 20px;width: 52%;text-align: right;" href="/webapp/profile/follow/{{ user_profile.username }}">Follow User</a></li>
+        </ul>
+
+        {% if already_following  %}
+            <h1> big pog!</h1>
+        {% endif %}
+    {% endfor %}
 
 {% endblock %}

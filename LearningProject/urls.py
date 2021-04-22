@@ -19,6 +19,9 @@ urlpatterns = [
     url(r'^comparative_feedback/$', views.comparative_feedback, name='webapp/comparative_feedback.html'),
     url(r"^badges/", include("pinax.badges.urls", namespace="pinax_badges")),
     url(r'^group_feedback/$', views.group_feedback, name='webapp/group_feedback.html'),
-    url(r'^user/(?P<username>[\w\-]+)/$', views.view_user_profile)
+    url(r'^profile_list/$', views.profile_list, name='webapp/profile_list.html'),
+
+    url(r'^profile/(?P<username>[\w\-]+)/$', views.view_user_profile, name='webapp/profile'),
+    url(r'^profile/follow/(?P<username>[\w\-]+)/$', views.follow_request, name='webapp/profile/follow')
 
 ]

@@ -6,9 +6,9 @@ from django.contrib.auth.decorators import login_required
 from datetime import datetime, timedelta
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Avg
-import re
-import json
 from django.contrib.auth.models import User
+from friendship.models import Friend, Follow, Block
+
 
 ###### BADGES ######
 from pinax.badges.base import Badge, BadgeAwarded, BadgeDetail
@@ -38,12 +38,11 @@ def register(request):
 def view_profile(request):
     try:
         usagedata = Usage.objects.get(user=request.user)
-        args = {'user': request.user, 'usagedata':usagedata}
+        args = {'user': request.user, 'usagedata': usagedata}
         return render(request, "webapp/profile.html", args)
     except:
         args = {'user': request.user}
         return render(request, "webapp/profile.html", args)
-
 
 
 @login_required
@@ -179,7 +178,7 @@ def view_feedback(request):
 
                 # savings = int(rate * difference)
                 args = {'data1': data1,
-                        'lastmonth': lastmonth, 'thismonth': thismonth, 'thismonth_full':thismonth_full,
+                        'lastmonth': lastmonth, 'thismonth': thismonth, 'thismonth_full': thismonth_full,
                         'county': county, 'greenmonth': greenmonth,
                         'data2': data2, 'data3': data3,
                         'progress_check': progress_check,
@@ -196,21 +195,21 @@ def view_feedback(request):
 
                 elec_diff = elec2 - elec3
                 if elec_cost == 0:
-                    elec_rate =0
+                    elec_rate = 0
                 else:
                     elec_rate = elec_cost / elec2
                 elec_savings = int(elec_rate * elec_diff)
 
                 oil_diff = oil2 - oil3
-                if oil_cost ==0:
-                    oil_rate =0
+                if oil_cost == 0:
+                    oil_rate = 0
                 else:
                     oil_rate = oil_cost / oil2
                 oil_savings = int(oil_rate * oil_diff)
 
                 gas_diff = gas2 - gas3
                 if gas_cost == 0:
-                    gas_rate =0
+                    gas_rate = 0
                 else:
                     gas_rate = gas_cost / gas2
                 gas_savings = int(gas_rate * gas_diff)
@@ -355,14 +354,13 @@ def comparative_feedback(request):
     else:
         return 0.0
 
-
-    roundrank = 5 * round(percentile/5)
+    roundrank = 5 * round(percentile / 5)
 
     betterThan = 100 - percentile
 
     test = Usage.objects.all()
 
-    args = {'countydata': countydata, 'countyavg': countyavg, 'percentile': percentile,'roundrank':roundrank,
+    args = {'countydata': countydata, 'countyavg': countyavg, 'percentile': percentile, 'roundrank': roundrank,
             'Apr': Apr, 'county': county, 'betterThan': betterThan,
             'thismonth_full': thismonth_full, 'data2': data2,
             'countyavgReduction': countyavgReduction, 'reduction': reduction, 'user': user,
@@ -372,6 +370,18 @@ def comparative_feedback(request):
     if data2 == 0:
         return render(request, 'webapp/stop_catchers/no-usage.html')
 
+
+@login_required
+def group_feedback(request):
+    return render(request, 'webapp/group_feedback.html')
+
+
+def profile_list(request):
+    usagedata = Usage.objects.all()
+    args = {'usagedata': usagedata}
+    return render(request, 'webapp/profile_list.html', args)
+
+
 @login_required
 def view_user_profile(request, username):
     usageUserdata = User.objects.filter(username=username).only('id')
@@ -379,10 +389,20 @@ def view_user_profile(request, username):
         usageUser = n.id
     usagedata = Usage.objects.filter(user_id=usageUser)
     user_profile = User.objects.get(username=username)
-    args = {'user_profile': user_profile, 'usageUser': usageUser, 'usagedata': usagedata}
+    already_following = False
+    # if username in Follow.objects.following(request.user):
+    #     already_following = True
+
+    args = {'user_profile': user_profile, 'usageUser': usageUser, 'usagedata': usagedata, 'already_following': already_following}
     return render(request, 'webapp/viewprofile.html', args)
 
 
 @login_required
-def group_feedback(request):
-    return render(request, 'webapp/group_feedback.html')
+def follow_request(request, username):
+    other_user = User.objects.get(username=username)
+    Follow.objects.add_follower(
+        request.user,  # The sender
+        other_user,  # The recipient
+    )
+
+    return redirect('/webapp/viewprofile.html')

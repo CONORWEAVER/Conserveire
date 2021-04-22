@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>Profile List</title>
+{% endblock %}
+
+
+{% block body %}
+    {% for u in usagedata %}
+
+<p>Name: <a href="/webapp/profile/{{ u.user }}">{{ u.user }}</a>&nbsp; County: {{ u.county }}</p>
+
+
+{% endfor %}
+{% endblock %}
