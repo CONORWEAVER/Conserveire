@@ -53,7 +53,7 @@ class Usage(models.Model):
     oil = models.IntegerField(default=0, blank=True)
     gas = models.IntegerField(default=0, blank=True)
     oil_frequency = models.IntegerField(default=0, blank=True)
-    county = models.CharField(max_length=25, choices=COUNTY_CHOICES, blank=True)
+    county = models.CharField(max_length=25, choices=COUNTY_CHOICES, blank=True, default='')
     cost = models.IntegerField(default=0, blank=True)
     standing_charge = models.IntegerField(default=0, blank=True)
     difference = models.IntegerField(default=0, blank=True)
@@ -73,3 +73,8 @@ class Usage(models.Model):
     Mar_oil = models.IntegerField(default=0, blank=True)
     Apr_oil = models.IntegerField(default=0, blank =True)
     oil_cost = models.IntegerField(default=0, blank=True)
+
+class energyPledge(models.Model):
+    user = models.ForeignKey(User, unique=True, on_delete=models.CASCADE)
+    goal = models.IntegerField(default=0, blank=True)
+    end_date = models.DateField()

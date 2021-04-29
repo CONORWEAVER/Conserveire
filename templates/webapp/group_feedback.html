@@ -40,19 +40,20 @@
                     <div id="sidecard" style="margin-top: 20px;border-radius: 9px;border-bottom-color: rgb(33, 37, 41);">
                         <div id="sidecard-top" style="padding-bottom: 2.5px;border-bottom: 1px solid rgba(33,37,41,0.06) ;">
                             <h3 style="padding-top: 17px;margin-bottom: 0;padding-bottom: 12px;">National Monthly Summary</h3>
-                            <p class="text-secondary" style="font-size: 18px;">Congratulations on a [green] month!&nbsp;Here is how [County] compares this month:<br></p>
+                            <p class="text-secondary" style="font-size: 18px;">Here is how {{ user_county }} compares this month:<br></p>
                         </div>
                         <div class="sidecard-body" style="padding-top: 19px;padding-bottom: 8px;">
                             <ul class="text-left" style="font-size: 17px;margin: 0px;margin-bottom: 0;">
-                                <li>[County] had the biggest reduction in energy consumption this month</li>
-                                <li>[County] had the lowest overall average consumption this month</li>
-                                <li>Average reduction in consumption per county was: (x)<br></li>
-                                <li>Average consumption per county was: (x)<br></li>
+                                <li>{% for c in top_reduct %}{{ c.county }} {% endfor %} had the biggest reduction in energy consumption this month</li>
+                                <li>{% for c in lowest_consumpt %} {{ c.county }} {% endfor %} had the lowest overall average consumption this month</li>
+                                <li>Average reduction in consumption per county was: {{ irelandReduct.reduct | floatformat }} %<br></li>
+                                <li>Average consumption per county was: {{ irelandConsumpt.consumpt | floatformat}} kWh<br></li>
                             </ul>
                         </div>
                         <div id="sidecard-bottom">
                             <p data-bss-hover-animate="swing" style="margin: 0;padding-bottom: 14px;padding-top: 14px;"><i class="fa fa-star border rounded-circle rubberBand animated" style="background: #74c69d;padding: 11px;font-size: 18px;"></i><br></p>
-                            <p class="text-secondary" style="font-size: 16px;margin: 0;padding-top: 5px;">You have been awarded the Green County badge for [month] for being&nbsp;<br>part of the county with the highest reduction in energy consumption this month.<br><br></p>
+                            <p class="text-secondary" style="font-size: 16px;margin: 0;padding-top: 5px;">You have been awarded the Green County badge for
+                                {{ thismonth_full }} for being&nbsp;<br>part of the county with the highest reduction in energy consumption this month.<br><br></p>
                         </div>
                     </div>
                 </div>
@@ -64,14 +65,14 @@
             <div class="row" style="margin-bottom: 40px;margin-top: 40px;">
                 <div class="col-md-4 col-xl-5">
                     <div id="compcard" style="background: #f1f7fc;width: 100%;padding: 0;border-radius: 9px;">
-                        <h3 class="text-center" style="margin: 0;padding-bottom: 15px;padding-top: 15px;border-bottom: 1px solid rgba(33,37,41,0.06) ;">[County]</h3>
+                        <h3 class="text-center" style="margin: 0;padding-bottom: 15px;padding-top: 15px;border-bottom: 1px solid rgba(33,37,41,0.06) ;">{{ user_county }}</h3>
                         <div id="compcard-body" class="compcard-body" style="background: rgb(241,247,252);padding-top: 15px;padding-bottom: 15px;border-radius: 9px;">
                             <ul class="text-left" style="font-size: 17px;padding-right: 9px;">
-                                <li>Average consumption: (x)</li>
-                                <li>Average consumption reduction: (x)%</li>
-                                <li>Highest consumption: (x)<br></li>
-                                <li>Lowest consumption: (x)<br></li>
-                                <li>County Rank: (#)</li>
+                                <li>Average consumption: {{ user_county_consumption.consumpt | floatformat }} kWh</li>
+                                <li>Average consumption reduction: {{ user_county_reduct.reduct | floatformat }}%</li>
+                                <li>Highest consumption: {{ user_max_county_consumpt.max }} kWh<br></li>
+                                <li>Lowest consumption: {{ user_min_county_consumpt.min }} kWh<br></li>
+                                <li>County Savers Rank: #{{ ranking }}</li>
                             </ul>
                         </div>
                     </div>
@@ -86,11 +87,12 @@
                         <h3 class="text-center" style="margin: 0;padding-bottom: 15px;padding-top: 15px;border-bottom: 1px solid rgba(33,37,41,0.06) ;">Ireland</h3>
                         <div id="compcard-body" class="compcard-body" style="background: rgb(241,247,252);padding-top: 15px;padding-bottom: 15px;border-radius: 9px;">
                             <ul class="text-left" style="font-size: 17px;padding-right: 9px;">
-                                <li>Average consumption: (x)</li>
-                                <li>Average consumption reduction: (x)%</li>
-                                <li>Highest consumption: (x)<br></li>
-                                <li>Lowest consumption: (x)<br></li>
-                                <li>County Rank: (#)</li>
+                                <li>Average consumption: {{ irelandConsumpt.consumpt | floatformat }} kWh</li>
+                                <li>Average consumption reduction: {{ irelandReduct.reduct | floatformat }} %</li>
+                                <li>Highest consumption: {{ irelandMax.max }} kWh<br></li>
+                                <li>Lowest consumption: {{ irelandMin.min }} kWh<br></li>
+                                &nbsp;
+
                             </ul>
                         </div>
                     </div>
@@ -104,7 +106,25 @@
                 <div class="col-md-12" style="text-align: center;">
                     <div style="text-align: center;">
                         <h3 class="text-left">National Leaderboard: Reduction in Energy Consumption</h3>
-                        <div><canvas data-bss-chart="{&quot;type&quot;:&quot;horizontalBar&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;Cork&quot;,&quot;Kerry&quot;,&quot;Dublin&quot;,&quot;Wexford&quot;,&quot;Limerick&quot;,&quot;Laois&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Revenue&quot;,&quot;backgroundColor&quot;:&quot;#4e73df&quot;,&quot;borderColor&quot;:&quot;#4e73df&quot;,&quot;data&quot;:[&quot;4500&quot;,&quot;5300&quot;,&quot;6250&quot;,&quot;7800&quot;,&quot;9800&quot;,&quot;15000&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:false,&quot;reverse&quot;:false,&quot;position&quot;:&quot;bottom&quot;},&quot;title&quot;:{}}}"></canvas></div>
+                        <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width: 10%;">Rank</th>
+                                <th>County</th>
+                                <th class="text-right">Reduced By</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                      {% for c in county_reduct_leaderboard %}
+                        <tr>
+                            <td class="text-left" style="width: 6%;">{{ forloop.counter }}</td>
+                            <td>{{ c.county }}</td>
+                            <td class="text-right">{{ c.reductAvg | floatformat}} %</td>
+                        </tr>
+                    {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
                     </div>
                 </div>
             </div>
@@ -116,7 +136,24 @@
                 <div class="col-md-12" style="text-align: center;">
                     <div style="text-align: center;">
                         <h3 class="text-left">National Leaderboard: Overall Average Consumption</h3>
-                        <div><canvas data-bss-chart="{&quot;type&quot;:&quot;horizontalBar&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;Cork&quot;,&quot;Kerry&quot;,&quot;Dublin&quot;,&quot;Waterford&quot;,&quot;Limerick&quot;,&quot;Laois&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Revenue&quot;,&quot;backgroundColor&quot;:&quot;#4e73df&quot;,&quot;borderColor&quot;:&quot;#4e73df&quot;,&quot;data&quot;:[&quot;4500&quot;,&quot;5300&quot;,&quot;6250&quot;,&quot;7800&quot;,&quot;9800&quot;,&quot;15000&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:false,&quot;reverse&quot;:false,&quot;position&quot;:&quot;bottom&quot;},&quot;title&quot;:{}}}"></canvas></div>
+                        <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width: 10%;">Rank</th>
+                                <th>County</th>
+                                <th class="text-right">Consumption</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                      {% for c in county_consumpt_leaderboard %}
+                        <tr>
+                            <td class="text-left" style="width: 6%;">{{ forloop.counter }}</td>
+                            <td>{{ c.county }}</td>
+                            <td class="text-right">{{ c.consumption | floatformat}} kWh</td>
+                        </tr>
+                    {% endfor %}
+                        </tbody>
+                    </table>>
                     </div>
                 </div>
             </div>
@@ -127,11 +164,62 @@
             <div class="row">
                 <div class="col-md-12" style="text-align: center;">
                     <div style="text-align: center;">
-                        <h3 class="text-left">Average Consumption by Region //Choropleth Graph//</h3><iframe allowfullscreen="" frameborder="0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyC6Q8DjB6kS8c7CgKibf6aju6-HWcMoPJ8&amp;q=Ireland&amp;zoom=11" width="100%" height="400"></iframe>
+
                     </div>
                 </div>
             </div>
         </div>
     </section>
+    <br><h1>
+{#leaderboard reduction#}
+    {% for c in countyReduct %}
+        {{ c.county }} {{ c.reductAvg}}<br>
+    {% endfor %}
+
+
+
+<table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th style="width: 10%;">Rank</th>
+                <th>County</th>
+                <th class="text-right">Reduced By</th>
+            </tr>
+        </thead>
+        <tbody>
+      {% for c in countyReduct %}
+        <tr>
+            <td class="text-left" style="width: 6%;">{{ forloop.counter }}</td>
+            <td>{{ c.county }}</td>
+            <td class="text-right">{{ c.reductAvg | floatformat}} %</td>
+        </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+
+    <br><br>
+{#leaderboard consumption#}
+    {% for c in countyConsumption %}
+        {{ c.county }} {{ c.consumption }}<br>
+    {% endfor %}
+
+{#rendering details for signed in users county#}
+County is: {{ user_county }}<br>
+Avg. reduct is: {{ user_county_reduct.reduct }} and consumption is : {{ user_county_consumption.consumpt }}<br>
+<br>
+{#rendering details entire country performance#}
+Avg reduct is: {{ irelandReduct.reduct }} and consumption is : {{ irelandConsumpt.consumpt }}
+</h1>
+    <br>
+
+    <h3>{{ ranking }}</h3>
+    <h3>top = {{ top_reduct }}</h3><br>
+   {% for c in top_reduct %}top ={{ c.county }} {% endfor %} </h3><br>
+    lowest = {% for c in lowest_consumpt %} {{ c.county }} {% endfor %}
+    <h1>test is {{ countyConsumption }}<br> {{ testing }}</h1>
+
+
+
 {% endblock %}
+
 </html>

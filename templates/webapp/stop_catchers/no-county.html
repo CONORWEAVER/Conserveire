@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>Feedback</title>
+{% endblock %}
+{% block body %}
+    <section id="shadedsection" class="shadedsection" style="margin: 0;margin-top: 39px;">
+        <div id="sidecard" style="margin-top: 20px;border-radius: 9px;">
+            <div id="sidecard-top" style="padding-bottom: 2.5px;border-top-width: 1px;border-bottom: 1px solid rgba(33,37,41,0.06);">
+                <h3 class="text-center" style="padding-top: 17px;margin-bottom: 0;padding-bottom: 12px;">We don't know what county you're from...</h3>
+                <p class="text-secondary" style="font-size: 18px;">You won't be able to compare yourself to your county, until you tell us what county you are from!</p>
+                <p class="text-secondary" style="font-size: 16px;margin: 0;padding-top: 5px;"><strong><a href="/webapp/monthly_use_form/"><strong>Click here to enter your usage for the month and tell us your county</strong></strong><br><br></p>
+            </div>
+        </div>
+    </section>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+{% endblock %}
