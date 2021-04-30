@@ -1,8 +1,8 @@
 from django import forms
-from django.forms import ModelForm
+from django.forms import ModelForm, DateInput
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from LearningProject.models import Usage, UserProfile
+from LearningProject.models import Usage, UserProfile, energyPledge
 
 
 class RegistrationForm(UserCreationForm):
@@ -49,3 +49,13 @@ class UsageForm(ModelForm):
                   'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'county',
                   'cost', 'standing_charge', 'oil', 'oil_frequency', 'gas', 'electricity',
                   'elec_cost', 'gas_cost', 'oil_cost', 'Apr_elec', 'Apr_oil', 'Apr_gas']
+
+class pledgeForm(ModelForm):
+    class Meta:
+        model = energyPledge
+        fields = [
+            'goal', 'end_date'
+        ]
+        # widgets = {
+        #     'end_date': DateInput(attrs={'type': 'date'})
+        # }

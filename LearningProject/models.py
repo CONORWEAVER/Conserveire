@@ -77,4 +77,4 @@ class Usage(models.Model):
 class energyPledge(models.Model):
     user = models.ForeignKey(User, unique=True, on_delete=models.CASCADE)
     goal = models.IntegerField(default=0, blank=True)
-    end_date = models.DateField()
+    end_date = models.DateField(blank=True)

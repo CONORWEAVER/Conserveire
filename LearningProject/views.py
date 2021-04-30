@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse
 from django.shortcuts import redirect
-from LearningProject.forms import RegistrationForm, UsageForm, EditProfileForm
-from LearningProject.models import Usage
+from LearningProject.forms import RegistrationForm, UsageForm, EditProfileForm, pledgeForm
+from LearningProject.models import Usage, energyPledge
 from django.contrib.auth.decorators import login_required
 from datetime import datetime, timedelta
 from django.core.exceptions import ObjectDoesNotExist
@@ -36,7 +36,8 @@ def register(request):
 def view_profile(request):
     try:
         usagedata = Usage.objects.get(user=request.user)
-        args = {'user': request.user, 'usagedata': usagedata}
+        pledge_goal = energyPledge.objects.get(user=request.user)
+        args = {'user': request.user, 'usagedata': usagedata, 'pledge_goal': pledge_goal}
         return render(request, "webapp/profile.html", args)
     except:
         args = {'user': request.user}
@@ -580,18 +581,37 @@ def profile_list(request):
 
 @login_required
 def view_user_profile(request, username):
+
     usageUserdata = User.objects.filter(username=username).only('id')
     for n in usageUserdata:
         usageUser = n.id
+
     usagedata = Usage.objects.filter(user_id=usageUser)
     user_profile = User.objects.get(username=username)
     already_following = False
     # if username in Follow.objects.following(request.user):
     #     already_following = True
-
-    args = {'user_profile': user_profile, 'usageUser': usageUser, 'usagedata': usagedata,
+    pledge_data = energyPledge.objects.filter(user_id=usageUser)
+    pledge_data = True
+    args = {'user_profile': user_profile, 'usageUser': usageUser, 'usagedata': usagedata, 'pledge_date': pledge_data,
             'already_following': already_following}
     return render(request, 'webapp/viewprofile.html', args)
+
+
+    # try:
+    #     pledge_data = energyPledge.objects.filter(user_id=usageUser)
+    #     pledge_data = True
+    #     args = {'user_profile': user_profile, 'usageUser': usageUser, 'usagedata': usagedata, 'pledge_date':pledge_data,
+    #             'already_following': already_following}
+    #     return render(request, 'webapp/viewprofile.html', args)
+    # except:
+    #     pledge_data = False
+    #     args = {'user_profile': user_profile, 'usageUser': usageUser, 'usagedata': usagedata,
+    #             'already_following': already_following}
+    #     return render(request, 'webapp/viewprofile.html', args)
+
+
+
 
 
 @login_required
@@ -625,5 +645,25 @@ def reject_friend(request):
     friend_request.reject()
     return HttpResponse('You declined the friend invitation.')
 
-# def energy_pledge(request):
-#
+def energy_pledge(request):
+    user = request.user
+
+    if request.method == 'POST':
+        form = pledgeForm(request.POST)
+        if form.is_valid():
+            pledge = form.save(commit=False)
+            pledge.user = user
+            form.save()
+            return redirect('/webapp/profile/')
+    else:
+        form = pledgeForm()
+        args = {'form': form}
+        return render(request, 'webapp/pledge.html', args)
+
+def social(request):
+    users = User.objects.all()
+    args ={'users':users}
+    return render(request, 'webapp/social.html', args)
+
+    # < a
+    # href = "/webapp/profile/{{ c.user }}" > {{c.user}} < / a >

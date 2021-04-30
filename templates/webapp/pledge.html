@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>Submit your monthly usage</title>
+{% endblock %}
+
+
+{% block body %}
+    <form method="post">
+    {% csrf_token %}
+    <section id="shadedsection" class="shadedsection" style="padding-left: 34px;">
+        <h5 style="color: rgb(33, 37, 41);padding: 20px;padding-bottom: 9px;">Make a pledge:</h5>
+        <p style="padding-left: 20px;">Enter your energy reduction % goal: {{ form.goal }}<br></p>
+        <p style="padding-left: 20px;">Enter the date you want to achieve this goal by: {{ form.end_date}} YYYY-MM-DD</p>
+        </p><button class="btn btn-primary" type="submit" style="width: 124.5px;margin-top: 26px;">Submit</button>
+    </section>
+
+    </form>
+{% endblock %}

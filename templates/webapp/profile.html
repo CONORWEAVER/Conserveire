@@ -51,10 +51,11 @@
                                     <p class="text-secondary" style="font-size: 18px;">Check out {{ user.first_name }}'s latest energy pledge:<br></p>
                                 </div>
                                 <div id="sidecard-body-1" class="sidecard-body" style="padding-top: 19px;padding-bottom: 8px;">
-                                    <p style="font-size: 18px;background: rgba(64,145,108,0.38);border-radius: 33px;margin-right: 35px;margin-left: 35px;padding-right: 5px;padding-left: 5px;">You pledged to reduce your energy consumption by 5% before June</p>
+                                    <p style="font-size: 18px;background: rgba(64,145,108,0.38);border-radius: 33px;margin-right: 35px;margin-left: 35px;padding-right: 5px;padding-left: 5px;">You pledged to reduce your energy consumption by {{ pledge_goal.goal }} % before
+                                        {{ pledge_goal.end_date }}</p>
                                 </div>
                                 <div id="sidecard-bottom-1">
-                                    <p class="text-secondary" style="font-size: 16px;margin: 0;padding-top: 5px;">You have 43 days left to succeed in your pledge.<br><a href='/webapp/feedback'><strong>Click here&nbsp;to view your progress</strong></a><br><br></p>
+                                    <p class="text-secondary" style="font-size: 16px;margin: 0;padding-top: 5px;">You have {{ pledge_goal.end_date |timeuntil }} left to succeed in your pledge.<br><a href='/webapp/feedback'><strong>Click here&nbsp;to view your progress</strong></a><br><br></p>
                                 </div>
                             </div>
                         </div>
@@ -87,9 +88,5 @@
 {#        County: {{ user.userprofile.county }}#}
 {##}
 
-   <h1>{% friends request.user %}</h1>
-
-    </p>
-    <h4>testing: {{ test }}</h4>
 {% endblock %}
 
