@@ -555,6 +555,7 @@ def group_feedback(request):
 
     county_consumpt_leaderboard = Usage.objects.values('county').annotate(consumption=Avg(thismonth_short)).order_by('-consumption')
     county_reduct_leaderboard = Usage.objects.values('county').annotate(reductAvg=Avg('reduction_percentage')).order_by('-reductAvg')
+
     ranking = Usage.objects.filter(user__usage__reduction_percentage__gte=reduction).count()
 
     args = {
