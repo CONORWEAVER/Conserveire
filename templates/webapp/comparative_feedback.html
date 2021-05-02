@@ -47,7 +47,7 @@
                                 <li>You were in the top {{ percentile }}% of energy savers in {{ county }} this month!</li>
                                 <li>You saved more energy than {{ betterThan }}% of other users in {{ county }}</li>
                                 <li>Average reduction in {{ county }}: {{ countyavgReduction.reduction_percentage__avg|floatformat}}% vs Your reduction: {{ reduction }}%<br></li>
-                                <li>Average consumption in {{ county}}: {{ countyavg.Apr__avg|floatformat }} vs Your consumption: {{ data2 }}<br></li>
+                                <li>Average consumption in {{ county}}: {{ countyavg.May__avg|floatformat }} vs Your consumption: {{ data2 }}<br></li>
                             </ul>
                         </div>
                         <div id="sidecard-bottom">
@@ -113,13 +113,18 @@
             </div>
         </div>
     </section>
-    <section id="shadedsection-1" class="shadedsection">
+     <section id="shadedsection-1" class="shadedsection">
         <div class="container" style="padding: 40px;">
             <div class="row">
                 <div class="col-md-12" style="text-align: center;">
                     <div style="text-align: center;">
-                        <h3 class="text-left">Reduction Visualized</h3>
-                        <div><canvas data-bss-chart="{&quot;type&quot;:&quot;horizontalBar&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;January&quot;,&quot;February&quot;,&quot;March&quot;,&quot;April&quot;,&quot;May&quot;,&quot;June&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Revenue&quot;,&quot;backgroundColor&quot;:&quot;#4e73df&quot;,&quot;borderColor&quot;:&quot;#4e73df&quot;,&quot;data&quot;:[&quot;4500&quot;,&quot;5300&quot;,&quot;6250&quot;,&quot;7800&quot;,&quot;9800&quot;,&quot;15000&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:false,&quot;reverse&quot;:false,&quot;position&quot;:&quot;bottom&quot;},&quot;title&quot;:{}}}"></canvas></div>
+                        <h3>How Do You Compare</h3>
+                        <p class="text-secondary">Change needs to happen at an individual, community, county and national level.&nbsp;</p>
+                        <ul class="list-unstyled" style="text-align: center;">
+                            <li style="padding-top: 0px;margin-bottom: 14px;background: #f1f7fc;text-align: center;"><a class="btn btn-primary text-center" role="button" style="border-radius: 20px;width: 52%;text-align: right;" href='/webapp/feedback'>View your personalized energy usage feedback</a></li>
+                            <li style="padding-top: 0px;margin-bottom: 14px;"><a class="btn btn-primary text-center" role="button" style="border-radius: 20px;width: 52%;" href='/webapp/group_feedback/'>See how you compare to similar people in Ireland</a></li>
+                            <li style="padding-top: 0px;margin-bottom: 14px;"><a class="btn btn-primary text-center" role="button" style="border-radius: 20px;width: 52%;" href='/webapp/group_feedback/'>Explore how your community compares to the rest of Ireland</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>

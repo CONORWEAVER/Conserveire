@@ -35,12 +35,24 @@ def register(request):
 @login_required
 def view_profile(request):
     try:
-        usagedata = Usage.objects.get(user=request.user)
+        usagedata = Usage.objects.filter(user=request.user)
+        for n in usagedata:
+            reduction = n.reduction_percentage
+
         pledge_goal = energyPledge.objects.get(user=request.user)
-        args = {'user': request.user, 'usagedata': usagedata, 'pledge_goal': pledge_goal}
+
+        has_pledged = False
+        if pledge_goal.goal != 0:
+            has_pledged = True
+
+        args = {'user': request.user, 'usagedata': usagedata, 'pledge_goal': pledge_goal, 'has_pledged': has_pledged, 'reduction': reduction}
         return render(request, "webapp/profile.html", args)
     except:
-        args = {'user': request.user}
+        has_pledged = False
+        usagedata = Usage.objects.filter(user=request.user)
+        for n in usagedata:
+            reduction = n.reduction_percentage
+        args = {'user': request.user, 'usagedata': usagedata,'has_pledged': has_pledged, 'reduction': reduction}
         return render(request, "webapp/profile.html", args)
 
 
@@ -96,6 +108,15 @@ def view_feedback(request):
             febData = m.Feb
             marData = m.Mar
             aprData = m.Apr
+            mayData = m.May
+            junData = m.Jun
+            julData = m.Jul
+            augData = m.Aug
+            sepData = m.Sep
+            octData = m.Oct
+            novData = m.Nov
+            decData = m.Dec
+
 
             if thismonth == 'Jan':
                 data2 = m.Jan
@@ -278,6 +299,8 @@ def view_feedback(request):
                             'difference': difference, 'percentage_change': percentage_change,
                             'savings': savings, 'standingC': standingC,
                             'janData': janData, 'febData': febData, 'marData': marData, 'aprData': aprData,
+                            'mayData': mayData, 'junData': junData, 'julData':julData, 'augData':augData,
+                            'sepData': sepData, 'octData': octData, 'novData': novData, 'decData':decData,
                             'gas_savings': gas_savings, 'elec_savings': elec_savings, 'oil_savings': oil_savings}
                     return render(request, "webapp/feedback.html", args)
 
@@ -321,7 +344,10 @@ def view_feedback(request):
                             'progress_check': progress_check, 'greenmonth': greenmonth,
                             'difference': difference, 'percentage_change': percentage_change,
                             'savings': savings, 'standingC': standingC,
-                            'janData': janData, 'febData': febData, 'marData': marData, 'aprData': aprData}
+                            'janData': janData, 'febData': febData, 'marData': marData, 'aprData': aprData,
+                            'mayData': mayData, 'junData': junData, 'julData': julData, 'augData': augData,
+                            'sepData': sepData, 'octData': octData, 'novData': novData, 'decData': decData,
+                            }
                     return render(request, "webapp/feedback.html", args)
 
             if data2 == 0:
@@ -393,9 +419,9 @@ def monthly_use(request):
                                 usage.May_oil = (usage.May_oil * 10.18) / usage.oil_frequency
                                 if usage.oil_cost != 0:
                                     usage.oil_cost = usage.oil_cost / usage.oil_frequency
-                        usage.May = usagedata.May_gas + usagedata.May_elec + usagedata.May_oil
-                        usage.user = request.user
-                        usage.save()
+                    usage.May = usagedata.May_gas + usagedata.May_elec + usagedata.May_oil
+                    usage.user = request.user
+                    usage.save()
                     if thismonth == '06':
                         if usage.Jun_oil != 0:
                             if usage.oil_frequency != 0:
@@ -417,7 +443,7 @@ def monthly_use(request):
 
                 return redirect('/webapp/feedback')
             else:
-                form = UsageForm(instance=request.user)
+                form = UsageForm()
                 # check current month, used later at template level to render only the form field of current month
                 thismonth = datetime.now().strftime('%m')
 
@@ -437,7 +463,6 @@ def monthly_use(request):
     # for signed in user ID.
     except ObjectDoesNotExist:
         if request.method == 'POST':
-            # instance enables updating of database values from fresh form / model variables
             form = UsageForm(request.POST)
             if form.is_valid():
                 usage = form.save(commit=False)
@@ -486,19 +511,22 @@ def comparative_feedback(request):
         elif thismonth == '10':
             data2 = m.Oct
 
+        countydata = Usage.objects.filter(user__usage__county=county).values('Apr', 'user_id')
+        countyavg = countydata.aggregate(Avg(thismonth_short))
+        countyavgReductiondata = Usage.objects.filter(user__usage__county=county).values('reduction_percentage')
+        countyavgReduction = countyavgReductiondata.aggregate(Avg('reduction_percentage'))
+
         data1 = Usage.objects.filter(county=county)
         if data2 != 0:
             comparative_leaderboard = data1.order_by('-reduction_percentage')[:10]
-            ranking = Usage.objects.filter(user__usage__reduction_percentage__gte=reduction).count()
+
+            ranking = countydata.filter(user__usage__reduction_percentage__gte=reduction).count()
 
         else:
             comparative_leaderboard = data1.order_by('-reduction_percentage')[:10]
             ranking = 'n/a'
 
-        countydata = Usage.objects.filter(user__usage__county=county).values('Apr', 'user_id')
-        countyavg = countydata.aggregate(Avg(thismonth_short))
-        countyavgReductiondata = Usage.objects.filter(user__usage__county=county).values('reduction_percentage')
-        countyavgReduction = countyavgReductiondata.aggregate(Avg('reduction_percentage'))
+
 
         count_values = countydata.count()
         if count_values:
@@ -541,10 +569,12 @@ def group_feedback(request):
     user_max_county_consumpt = user_county_data.aggregate(max=Max(thismonth_short))
     user_min_county_consumpt = user_county_data.aggregate(min=Min(thismonth_short))
 
-    countyReduct = Usage.objects.values('county').annotate(reductAvg=Avg('reduction_percentage')).order_by('reductAvg')
+    countyReduct = Usage.objects.values('county').annotate(reductAvg=Avg('reduction_percentage')).order_by('-reductAvg')
     top_reduct = countyReduct[:1]
-    countyConsumption = Usage.objects.values('county').annotate(consumption=Avg(thismonth_short)).order_by('consumption')
-    lowest_consumpt = Usage.objects.values('county').annotate(consumption=Avg(thismonth_short)).order_by('-consumption')[:1]
+    countyConsumption = Usage.objects.values('county').annotate(consumption=Avg(thismonth_short)).order_by(
+        'consumption')
+    lowest_consumpt = Usage.objects.values('county').annotate(consumption=Avg(thismonth_short)).order_by(
+        'consumption')[:1]
 
     max_county_consumpt = user_county_data.aggregate(reduct=Avg('reduction_percentage'))
 
@@ -553,8 +583,10 @@ def group_feedback(request):
     irelandMax = Usage.objects.aggregate(max=Max(thismonth_short))
     irelandMin = Usage.objects.aggregate(min=Min(thismonth_short))
 
-    county_consumpt_leaderboard = Usage.objects.values('county').annotate(consumption=Avg(thismonth_short)).order_by('-consumption')
-    county_reduct_leaderboard = Usage.objects.values('county').annotate(reductAvg=Avg('reduction_percentage')).order_by('-reductAvg')
+    county_consumpt_leaderboard = Usage.objects.values('county').annotate(consumption=Avg(thismonth_short)).order_by(
+        'consumption')
+    county_reduct_leaderboard = Usage.objects.values('county').annotate(reductAvg=Avg('reduction_percentage')).order_by(
+        '-reductAvg')
 
     ranking = Usage.objects.filter(user__usage__reduction_percentage__gte=reduction).count()
 
@@ -565,8 +597,9 @@ def group_feedback(request):
         'irelandReduct': irelandReduct, 'irelandConsumpt': irelandConsumpt, 'irelandMax': irelandMax,
         'irelandMin': irelandMin,
         'user_max_county_consumpt': user_max_county_consumpt, 'user_min_county_consumpt': user_min_county_consumpt,
-        'county_reduct_leaderboard': county_reduct_leaderboard, 'ranking': ranking, 'county_consumpt_leaderboard': county_consumpt_leaderboard,
-        'top_reduct':top_reduct, 'thismonth_full': thismonth_full, 'lowest_consumpt':lowest_consumpt,
+        'county_reduct_leaderboard': county_reduct_leaderboard, 'ranking': ranking,
+        'county_consumpt_leaderboard': county_consumpt_leaderboard,
+        'top_reduct': top_reduct, 'thismonth_full': thismonth_full, 'lowest_consumpt': lowest_consumpt,
     }
 
     return render(request, 'webapp/group_feedback.html', args)
@@ -575,28 +608,33 @@ def group_feedback(request):
 
 
 def profile_list(request):
-    usagedata = Usage.objects.all()
+    usagedata = Usage.objects.filter(user__usage__May__gt=0)
     args = {'usagedata': usagedata}
     return render(request, 'webapp/profile_list.html', args)
 
 
 @login_required
 def view_user_profile(request, username):
-
     usageUserdata = User.objects.filter(username=username).only('id')
     for n in usageUserdata:
         usageUser = n.id
 
     usagedata = Usage.objects.filter(user_id=usageUser)
     user_profile = User.objects.get(username=username)
-    already_following = False
-    # if username in Follow.objects.following(request.user):
-    #     already_following = True
     pledge_data = energyPledge.objects.filter(user_id=usageUser)
-    pledge_data = True
-    args = {'user_profile': user_profile, 'usageUser': usageUser, 'usagedata': usagedata, 'pledge_date': pledge_data,
-            'already_following': already_following}
-    return render(request, 'webapp/viewprofile.html', args)
+    try:
+        check_for_pledge_or_execpt = energyPledge.objects.get(user_id=usageUser)
+        has_pledged = True
+        args = {'user_profile': user_profile, 'usageUser': usageUser, 'usagedata': usagedata,
+                'pledge_data': pledge_data,
+                'has_pledged': has_pledged}
+        return render(request, 'webapp/viewprofile.html', args)
+    except:
+        has_pledged = False
+        args = {'user_profile': user_profile, 'usageUser': usageUser, 'usagedata': usagedata,
+                'pledge_data': pledge_data,
+                'has_pledged': has_pledged}
+        return render(request, 'webapp/viewprofile.html', args)
 
 
     # try:
@@ -612,9 +650,6 @@ def view_user_profile(request, username):
     #     return render(request, 'webapp/viewprofile.html', args)
 
 
-
-
-
 @login_required
 def friend_request(request, username):
     other_user = User.objects.get(username=username)
@@ -625,29 +660,11 @@ def friend_request(request, username):
     return HttpResponse('Friend request sent!')
 
 
-def manage_friends(request):
-    friend_reqs = Friend.objects.unrejected_requests(user=request.user)
-    current_friends = Friend.objects.friends(request.user)
-    requests_sent = Friend.objects.sent_requests(user=request.user)
 
-    args = {'friend_reqs': friend_reqs, 'current_friends': current_friends, 'requests_sent': requests_sent}
-
-    return render(request, 'webapp/manage_friends.html', args)
-
-
-def accept_friend(request):
-    friend_request = FriendshipRequest.objects.get(to_user=request.user)
-    friend_request.accept()
-    return HttpResponse('You are now friends.')
-
-
-def reject_friend(request):
-    friend_request = FriendshipRequest.objects.get(to_user=request.user)
-    friend_request.reject()
-    return HttpResponse('You declined the friend invitation.')
-
+@login_required()
 def energy_pledge(request):
     user = request.user
+    form = pledgeForm
 
     if request.method == 'POST':
         form = pledgeForm(request.POST)
@@ -657,14 +674,21 @@ def energy_pledge(request):
             form.save()
             return redirect('/webapp/profile/')
     else:
-        form = pledgeForm()
-        args = {'form': form}
-        return render(request, 'webapp/pledge.html', args)
+        try:
+            # enpledge = energyPledge.objects.get(user=request.user)
+            if energyPledge.objects.get(user=request.user).goal > 0:
+                return render(request, 'webapp/stop_catchers/already_pledged.html')
+            else:
+                form = pledgeForm()
+                args = {'form': form}
+                return render(request, 'webapp/pledge.html', args)
+        except:
+            args = {'form': form}
+            return render(request, 'webapp/pledge.html', args)
 
+@login_required()
 def social(request):
     users = User.objects.all()
-    args ={'users':users}
+    args = {'users': users}
     return render(request, 'webapp/social.html', args)
 
-    # < a
-    # href = "/webapp/profile/{{ c.user }}" > {{c.user}} < / a >

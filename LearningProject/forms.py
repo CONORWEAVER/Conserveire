@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import ModelForm, DateInput
+from django.forms import ModelForm, DateInput, TextInput
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from LearningProject.models import Usage, UserProfile, energyPledge
@@ -45,10 +45,13 @@ class EditProfileForm(UserChangeForm):
 class UsageForm(ModelForm):
     class Meta:
         model = Usage
-        fields = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+        fields = [
+                    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
                   'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'county',
                   'cost', 'standing_charge', 'oil', 'oil_frequency', 'gas', 'electricity',
-                  'elec_cost', 'gas_cost', 'oil_cost', 'Apr_elec', 'Apr_oil', 'Apr_gas']
+                  'elec_cost', 'gas_cost', 'oil_cost', 'Apr_elec', 'Apr_oil', 'Apr_gas',
+                    'May_elec', 'May_gas', 'May_oil', 'Jun_elec', 'Jun_oil', 'Jun_gas'
+                  ]
 
 class pledgeForm(ModelForm):
     class Meta:
@@ -56,6 +59,6 @@ class pledgeForm(ModelForm):
         fields = [
             'goal', 'end_date'
         ]
-        # widgets = {
-        #     'end_date': DateInput(attrs={'type': 'date'})
-        # }
+        widgets = {
+            'end_date': TextInput(attrs={'required': 'true'})
+        }

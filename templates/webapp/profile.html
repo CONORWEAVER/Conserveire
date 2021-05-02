@@ -42,21 +42,41 @@
                     <div id="sidecard" style="margin-top: 20px;border-radius: 9px;">
                         <div id="sidecard-top" style="padding-bottom: 2.5px;border-bottom: 1px solid rgba(33,37,41,0.06) ;">
                             <h3 style="padding-top: 17px;margin-bottom: 0;padding-bottom: 12px;">Your Profile</h3>
-                            <p class="text-secondary" style="font-size: 18px;">You reduced your energy consumption by {{ usagedata.reduction_percentage }}% this month !<br></p>
+                            <p class="text-secondary" style="font-size: 18px;">You reduced your energy consumption by {{ reduction }}% this month !<br></p>
                         </div>
                         <div id="sidecard-body" class="sidecard-body" style="padding-top: 0;padding-bottom: 8px;">
                             <div id="sidecard-1" style="margin-top: 20px;border-radius: 9px;">
+                                {% if has_pledged %}
                                 <div id="sidecard-top-1" style="padding-bottom: 2.5px;border-bottom: 1px solid rgba(33,37,41,0.06) ;">
                                     <h4 style="padding-top: 0;margin-bottom: 0;padding-bottom: 12px;">Energy Pledge</h4>
-                                    <p class="text-secondary" style="font-size: 18px;">Check out {{ user.first_name }}'s latest energy pledge:<br></p>
+                                    <p class="text-secondary" style="font-size: 18px;">You have made an energy pledge, check it out:<br></p>
                                 </div>
                                 <div id="sidecard-body-1" class="sidecard-body" style="padding-top: 19px;padding-bottom: 8px;">
-                                    <p style="font-size: 18px;background: rgba(64,145,108,0.38);border-radius: 33px;margin-right: 35px;margin-left: 35px;padding-right: 5px;padding-left: 5px;">You pledged to reduce your energy consumption by {{ pledge_goal.goal }} % before
+
+
+                                <p style="font-size: 18px;background: rgb(64,145,108);border-radius: 33px;margin-right: 35px;margin-left: 35px;padding: 7px;padding-right: 5px;padding-left: 5px;color: rgb(255,255,255);">You pledged to reduce your energy consumption by {{ pledge_goal.goal }} % before
                                         {{ pledge_goal.end_date }}</p>
+
                                 </div>
                                 <div id="sidecard-bottom-1">
                                     <p class="text-secondary" style="font-size: 16px;margin: 0;padding-top: 5px;">You have {{ pledge_goal.end_date |timeuntil }} left to succeed in your pledge.<br><a href='/webapp/feedback'><strong>Click here&nbsp;to view your progress</strong></a><br><br></p>
                                 </div>
+
+                                {% else %}
+                                    <div id="sidecard-top-1" style="padding-bottom: 2.5px;border-bottom: 1px solid rgba(33,37,41,0.06) ;">
+                                    <h4 style="padding-top: 0;margin-bottom: 0;padding-bottom: 12px;">Energy Pledge</h4>
+                                    <p class="text-secondary" style="font-size: 18px;">You have not made an energy pledge yet<br></p>
+                                </div>
+                                <div id="sidecard-body-1" class="sidecard-body" style="padding-top: 19px;padding-bottom: 8px;">
+                                <p style="font-size: 18px;background: rgb(64,145,108);border-radius: 33px;margin-right: 35px;margin-left: 35px;padding: 7px;padding-right: 5px;padding-left: 5px;color: rgb(255,255,255);"> <a href='/webapp/pledge' style="color: #ffffff">Click here to make an energy pledge!</a></p>
+                                </div>
+                                <div id="sidecard-bottom-1">
+                                    <p class="text-secondary" style="font-size: 16px;margin: 0;padding-top: 5px;">You can still make a difference, without making a commitment<br><a href='/webapp/feedback'><strong>Click here&nbsp;to view your progress</strong></a><br><br></p>
+                                </div>
+
+
+
+                                {% endif %}
                             </div>
                         </div>
                         <div id="sidecard-bottom"></div>
@@ -72,8 +92,9 @@
             </div>
         </div>
     </section>
-
     </section>
+
+
 
 
 {#        <p>#}

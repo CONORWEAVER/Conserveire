@@ -72,22 +72,65 @@
     {% csrf_token %}
     <section id="shadedsection" class="shadedsection" style="padding-left: 34px;">
         <h5 style="color: rgb(33, 37, 41);padding: 20px;padding-bottom: 9px;">Electricity Usage:</h5>
-        <p style="padding-left: 20px;">Enter your electricity usage in kWh for {{ thismonth_full}}&nbsp;{{ form.Apr_elec }}<br></p>
+        {% if thismonth == '05' %}
+                <p style="padding-left: 20px;">Enter your electricity usage in kWh for {{ thismonth_full}}&nbsp;{{ form.May_elec }}<br></p>
         <p style="padding-left: 20px;">Enter the total cost of your electricity bill this month: &nbsp; {{ form.elec_cost}}</p>
         <p style="padding-left: 20px;padding-bottom: 20px;">For more accurate tracking of monetary savings, you can tell us your monthly standing charge (optional):{{ form.standing_charge }}<br></p>
+
     </section>
     <section id="shadedsection" class="shadedsection" style="padding-left: 34px;background: rgba(241,247,252,0);">
         <h5 style="color: rgb(33, 37, 41);padding: 20px;padding-bottom: 9px;">Gas Usage:</h5>
-        <p style="padding-left: 20px;">Enter your gas usage in kWh for April:&nbsp;{{ form.Apr_gas }}<br></p>
+        <p style="padding-left: 20px;">Enter your gas usage in kWh for {{ thismonth_full }}:&nbsp;{{ form.May_gas }}<br></p>
         <p style="padding-left: 20px;">Enter the total cost of your gas bill for this month: &nbsp;{{ form.gas_cost }}</p>
     </section>
     <section style="margin-top: 55px;margin-bottom: 60px;">
         <section id="shadedsection-1" class="shadedsection" style="padding-left: 34px;">
             <h5 style="color: rgb(33, 37, 41);padding: 20px;padding-bottom: 9px;">Oil Usage</h5>
-            <p style="padding-left: 20px;">Enter how much oil in liters you purchased in your last refill:&nbsp;{{ form.Apr_oil }}<br></p>
+            <p style="padding-left: 20px;">Enter how much oil in liters you purchased in your last refill:&nbsp;{{ form.May_oil }}<br></p>
             <p style="padding-left: 20px;">How many months does one refill of this size normally last you?:&nbsp;{{ form.oil_frequency }}</p>
             <p style="padding-left: 20px;padding-bottom: 20px;">Enter the total cost of your last oil refill:&nbsp;{{ form.oil_cost }}<br></p>
         </section>
+        {% endif %}
+
+            {% if thismonth == '06' %}
+                <p style="padding-left: 20px;">Enter your electricity usage in kWh for {{ thismonth_full}}&nbsp;{{ form.Jun_elec }}<br></p>
+        <p style="padding-left: 20px;">Enter the total cost of your electricity bill this month: &nbsp; {{ form.elec_cost}}</p>
+        <p style="padding-left: 20px;padding-bottom: 20px;">For more accurate tracking of monetary savings, you can tell us your monthly standing charge (optional):{{ form.standing_charge }}<br></p>
+
+    </section>
+    <section id="shadedsection" class="shadedsection" style="padding-left: 34px;background: rgba(241,247,252,0);">
+        <h5 style="color: rgb(33, 37, 41);padding: 20px;padding-bottom: 9px;">Gas Usage:</h5>
+        <p style="padding-left: 20px;">Enter your gas usage in kWh for {{ thismonth_full }}:&nbsp;{{ form.Jun_gas }}<br></p>
+        <p style="padding-left: 20px;">Enter the total cost of your gas bill for this month: &nbsp;{{ form.gas_cost }}</p>
+    </section>
+    <section style="margin-top: 55px;margin-bottom: 60px;">
+        <section id="shadedsection-1" class="shadedsection" style="padding-left: 34px;">
+            <h5 style="color: rgb(33, 37, 41);padding: 20px;padding-bottom: 9px;">Oil Usage</h5>
+            <p style="padding-left: 20px;">Enter how much oil in liters you purchased in your last refill:&nbsp;{{ form.Jun_oil }}<br></p>
+            <p style="padding-left: 20px;">How many months does one refill of this size normally last you?:&nbsp;{{ form.oil_frequency }}</p>
+            <p style="padding-left: 20px;padding-bottom: 20px;">Enter the total cost of your last oil refill:&nbsp;{{ form.oil_cost }}<br></p>
+        </section>
+        {% endif %}
+
+                {% if thismonth == '07' %}
+                <p style="padding-left: 20px;">Enter your electricity usage in kWh for {{ thismonth_full}}&nbsp;{{ form.Jul_elec }}<br></p>
+        <p style="padding-left: 20px;">Enter the total cost of your electricity bill this month: &nbsp; {{ form.elec_cost}}</p>
+        <p style="padding-left: 20px;padding-bottom: 20px;">For more accurate tracking of monetary savings, you can tell us your monthly standing charge (optional):{{ form.standing_charge }}<br></p>
+
+    </section>
+    <section id="shadedsection" class="shadedsection" style="padding-left: 34px;background: rgba(241,247,252,0);">
+        <h5 style="color: rgb(33, 37, 41);padding: 20px;padding-bottom: 9px;">Gas Usage:</h5>
+        <p style="padding-left: 20px;">Enter your gas usage in kWh for {{ thismonth_full }}:&nbsp;{{ form.Jul_gas }}<br></p>
+        <p style="padding-left: 20px;">Enter the total cost of your gas bill for this month: &nbsp;{{ form.gas_cost }}</p>
+    </section>
+    <section style="margin-top: 55px;margin-bottom: 60px;">
+        <section id="shadedsection-1" class="shadedsection" style="padding-left: 34px;">
+            <h5 style="color: rgb(33, 37, 41);padding: 20px;padding-bottom: 9px;">Oil Usage</h5>
+            <p style="padding-left: 20px;">Enter how much oil in liters you purchased in your last refill:&nbsp;{{ form.Jul_oil }}<br></p>
+            <p style="padding-left: 20px;">How many months does one refill of this size normally last you?:&nbsp;{{ form.oil_frequency }}</p>
+            <p style="padding-left: 20px;padding-bottom: 20px;">Enter the total cost of your last oil refill:&nbsp;{{ form.oil_cost }}<br></p>
+        </section>
+        {% endif %}
             </section>
     <section id="shadedsection-2" class="shadedsection" style="padding-left: 34px;background: rgba(241,247,252,0);">
 {#        {% if enter_county %}#}
